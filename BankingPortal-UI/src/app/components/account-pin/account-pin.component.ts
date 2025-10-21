@@ -27,6 +27,11 @@ export class AccountPinComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.pinChangeForm = new FormGroup({
+    newPin: new FormControl(''),
+    confirmPin: new FormControl(''),
+    password: new FormControl(''),
+  });
     this.apiService.checkPinCreated().subscribe({
       next: (response: any) => {
         if (response && response.hasPIN) {
