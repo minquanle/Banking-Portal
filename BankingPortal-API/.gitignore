@@ -39,7 +39,7 @@ spring.log
 
 # Application properties
 # You might want to ignore application.properties if it contains sensitive information
-application.properties
+src/main/resources/application.properties
 application.yml
 application-*.properties
 application-*.yml
