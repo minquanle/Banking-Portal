@@ -47,13 +47,13 @@ jobs:
       - name: Create application-test.properties
         run: |
           mkdir -p src/main/resources
-            echo "spring.datasource.url=jdbc:mysql://127.0.0.1:3306/testdb" > src/test/resources/application-test.properties
-            echo "spring.datasource.username=user" >> src/test/resources/application-test.properties
-            echo "spring.datasource.password=password" >> src/test/resources/application-test.properties
-            echo "spring.jpa.hibernate.ddl-auto=create-drop" >> src/test/resources/application-test.properties
-            echo "spring.jpa.properties.hibernate.hbm2ddl.create_namespaces=true" >> src/test/resources/application-test.properties
-            echo "spring.jpa.show-sql=true" >> src/test/resources/application-test.properties
-            echo "spring.sql.init.mode=always" >> src/test/resources/application-test.properties
+          echo "spring.datasource.url=jdbc:mysql://127.0.0.1:3306/testdb" > src/test/resources/application-test.properties
+          echo "spring.datasource.username=user" >> src/test/resources/application-test.properties
+          echo "spring.datasource.password=password" >> src/test/resources/application-test.properties
+          echo "spring.jpa.hibernate.ddl-auto=create-drop" >> src/test/resources/application-test.properties
+          echo "spring.jpa.properties.hibernate.hbm2ddl.create_namespaces=true" >> src/test/resources/application-test.properties
+          echo "spring.jpa.show-sql=true" >> src/test/resources/application-test.properties
+          echo "spring.sql.init.mode=always" >> src/test/resources/application-test.properties
 
       - name: Build backend
         run: mvn clean package -DskipTests
