@@ -48,10 +48,10 @@ public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final TokenService tokenService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(tokenService).passwordEncoder(passwordEncoder());
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(tokenService).passwordEncoder(passwordEncoder());
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
