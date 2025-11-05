@@ -44,12 +44,16 @@ jobs:
             sleep 3
           done
 
+      - name: Create application.properties
+        run: |
+          mkdir -p src/main/resources
+          echo "spring.datasource.url=jdbc:mysql://127.0.0.1:3306/testdb" > src/main/resources/application.properties
+          echo "spring.datasource.username=user" >> src/main/resources/application.properties
+          echo "spring.datasource.password=password" >> src/main/resources/application.properties
+          echo "spring.jpa.hibernate.ddl-auto=create-drop" >> src/main/resources/application.properties
+
       - name: Build backend
         run: mvn clean package -DskipTests
 
       - name: Run TESTS
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/testdb
-          SPRING_DATASOURCE_USERNAME: user
-          SPRING_DATASOURCE_PASSWORD: password
-        run : mvn test
+        run: mvn test
