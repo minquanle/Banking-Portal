@@ -46,7 +46,7 @@ jobs:
 
       - name: Create application-test.properties
         run: |
-          mkdir -p src/main/resources
+          mkdir -p src/test/resources
           echo "spring.datasource.url=jdbc:mysql://127.0.0.1:3306/testdb" > src/test/resources/application-test.properties
           echo "spring.datasource.username=user" >> src/test/resources/application-test.properties
           echo "spring.datasource.password=password" >> src/test/resources/application-test.properties
