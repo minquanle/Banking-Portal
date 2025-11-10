@@ -54,7 +54,7 @@ jobs:
           echo "spring.jpa.properties.hibernate.hbm2ddl.create_namespaces=true" >> src/test/resources/application-test.properties
           echo "spring.jpa.show-sql=true" >> src/test/resources/application-test.properties
           echo "spring.sql.init.mode=always" >> src/test/resources/application-test.properties
-          echo "jwt.secret=YXNkZmdoamtscXdlcnR5dWlvcHphc2RmZ2g=" >> src/test/resources/application-test.properties
+          echo "jwt.secret=ZGFsBGFtb3RjahVvaUJpTWF0UmF0R6FpVmFBb1RvYW5Da69VbmdEdW5nNmdhbhhbmcxMjMh" >> src/test/resources/application-test.properties
           echo "jwt.expiration=3600000" >> src/test/resources/application-test.properties
           echo "spring.mail.username=${{secrets.SPRING_MAIL_USERNAME}}" >> src/test/resources/application-test.properties
           echo "spring.mail.password=${{secrets.SPRING_MAIL_PASSWORD}}" >> src/test/resources/application-test.properties
