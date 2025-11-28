@@ -175,7 +175,7 @@ public abstract class BaseTest {
         val accountNumber = userDetails.get("accountNumber");
         val password = userDetails.get("password");
 
-        val pinRequest = new PinRequest(accountNumber, getRandomPin(), password);
+        val pinRequest = new PinRequest(getRandomPin(), password);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")

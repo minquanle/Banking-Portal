@@ -1,5 +1,7 @@
 package com.webapp.bankingportal.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +27,9 @@ public class AccountController {
     private final TransactionService transactionService;
 
     @GetMapping("/pin/check")
-    public ResponseEntity<String> checkAccountPIN() {
+    public ResponseEntity<Map<String, Boolean>> checkAccountPIN() {
         val isPINValid = accountService.isPinCreated(LoggedinUser.getAccountNumber());
-        val response = isPINValid ? ApiMessages.PIN_CREATED.getMessage()
-                : ApiMessages.PIN_NOT_CREATED.getMessage();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of("hasPIN", isPINValid));
     }
 
     @PostMapping("/pin/create")
@@ -47,7 +46,6 @@ public class AccountController {
     public ResponseEntity<String> updatePIN(@RequestBody PinUpdateRequest pinUpdateRequest) {
         accountService.updatePin(
                 LoggedinUser.getAccountNumber(),
-                pinUpdateRequest.oldPin(),
                 pinUpdateRequest.password(),
                 pinUpdateRequest.newPin());
 

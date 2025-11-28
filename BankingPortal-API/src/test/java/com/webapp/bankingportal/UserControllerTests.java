@@ -510,7 +510,7 @@ public class UserControllerTests extends BaseTest {
         val responseBody = loginResult.getResponse().getContentAsString();
         val token = JsonPath.read(responseBody, "$.token");
 
-        val pinRequest = new PinRequest(accountNumber, getRandomPin(), user.getPassword());
+        val pinRequest = new PinRequest(getRandomPin(), user.getPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")

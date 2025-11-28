@@ -100,27 +100,6 @@
         class="space-y-4"
       >
         <div>
-          <label for="oldPin" class="block text-sm font-bold mb-2"
-            >Old PIN:</label
-          >
-          <input
-            formControlName="oldPin"
-            type="password"
-            id="oldPin"
-            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            placeholder="Enter the old PIN"
-          />
-          <div
-            *ngIf="
-              pinChangeForm.get('oldPin')?.invalid &&
-              pinChangeForm.get('oldPin')?.touched
-            "
-            class="text-red-500 text-sm mt-1"
-          >
-            Old PIN is required and must be 4 digits.
-          </div>
-        </div>
-        <div>
           <label for="newPinChange" class="block text-sm font-bold mb-2"
             >New PIN:</label
           >
@@ -139,6 +118,32 @@
             class="text-red-500 text-sm mt-1"
           >
             New PIN is required and must be 4 digits.
+          </div>
+        </div>
+        <div>
+          <label for="confirmPinChange" class="block text-sm font-bold mb-2"
+            >Confirm PIN:</label
+          >
+          <input
+            formControlName="confirmPin"
+            type="password"
+            id="confirmPinChange"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
+            placeholder="Confirm the new PIN"
+          />
+          <div
+            *ngIf="
+              pinChangeForm.get('confirmPin')?.invalid &&
+              pinChangeForm.get('confirmPin')?.touched
+            "
+            class="text-red-500 text-sm mt-1"
+          >
+            <div *ngIf="pinChangeForm.get('confirmPin')?.errors?.required">
+              Confirm PIN is required.
+            </div>
+            <div *ngIf="pinChangeForm.get('confirmPin')?.errors?.mismatch">
+              PINs do not match.
+            </div>
           </div>
         </div>
         <div>
