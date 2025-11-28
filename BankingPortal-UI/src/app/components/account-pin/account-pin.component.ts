@@ -66,19 +66,17 @@ export class AccountPinComponent implements OnInit {
         }
       );
     } else {
-      // For "Change PIN" form
+      // For "Change PIN" form - removed oldPin control because backend does not require it
       this.pinChangeForm = new FormGroup({
-        oldPin: new FormControl('', [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4),
-        ]),
         newPin: new FormControl('', [
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(4),
         ]),
+        confirmPin: new FormControl('', Validators.required),
         password: new FormControl('', Validators.required),
+      }, {
+        validators: passwordMismatch('newPin', 'confirmPin'),
       });
     }
   }
@@ -108,13 +106,12 @@ export class AccountPinComponent implements OnInit {
 
   onSubmitChangePIN(): void {
     if (this.pinChangeForm.valid) {
-      const oldPin = this.pinChangeForm.get('oldPin')?.value;
       const newPin = this.pinChangeForm.get('newPin')?.value;
       const password = this.pinChangeForm.get('password')?.value;
 
       this.loader.show('Updating PIN...'); // Show the loader before making the API call
-      // Call the API to update the PIN.
-      this.apiService.updatePin(oldPin, newPin, password).subscribe({
+      // Call the API to update the PIN. Backend expects { password, newPin }
+      this.apiService.updatePin(password, newPin).subscribe({
         next: (response: any) => {
           this.loader.hide(); // Hide the loader on successful PIN update
           this._toastService.success('PIN updated successfully');

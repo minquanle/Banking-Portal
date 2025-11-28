@@ -14,7 +14,7 @@ export class ApiService {
   // Account API Endpoints
 
   checkPinCreated(): Observable<any> {
-   
+
     return this.http.get<any>(`${this.baseUrl}/account/pin/check`);
   }
 
@@ -26,11 +26,10 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/account/pin/create`, body);
   }
 
-  updatePin(oldPin: string, newPin: string, password: string): Observable<any> {
+  updatePin(password: string, newPin: string): Observable<any> {
     const body = {
-      oldPin: oldPin,
-      newPin: newPin,
-      password: password
+      password: password,
+      newPin: newPin
     };
     return this.http.post<any>(`${this.baseUrl}/account/pin/update`, body);
   }

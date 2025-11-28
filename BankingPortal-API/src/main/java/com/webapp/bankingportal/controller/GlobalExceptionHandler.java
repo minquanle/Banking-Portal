@@ -17,6 +17,7 @@ import com.webapp.bankingportal.exception.InvalidAmountException;
 import com.webapp.bankingportal.exception.InvalidTokenException;
 import com.webapp.bankingportal.exception.InvalidOtpException;
 import com.webapp.bankingportal.exception.InvalidPinException;
+import com.webapp.bankingportal.exception.InvalidPasswordException;
 import com.webapp.bankingportal.exception.NotFoundException;
 import com.webapp.bankingportal.exception.OtpRetryLimitExceededException;
 import com.webapp.bankingportal.exception.PasswordResetException;
@@ -71,6 +72,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidPinException.class)
     public ResponseEntity<String> handleInvalidPinException(InvalidPinException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

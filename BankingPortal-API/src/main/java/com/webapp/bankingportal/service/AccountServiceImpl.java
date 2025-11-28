@@ -15,6 +15,7 @@ import com.webapp.bankingportal.exception.FundTransferException;
 import com.webapp.bankingportal.exception.InsufficientBalanceException;
 import com.webapp.bankingportal.exception.InvalidAmountException;
 import com.webapp.bankingportal.exception.InvalidPinException;
+import com.webapp.bankingportal.exception.InvalidPasswordException;
 import com.webapp.bankingportal.exception.NotFoundException;
 import com.webapp.bankingportal.exception.UnauthorizedException;
 import com.webapp.bankingportal.repository.AccountRepository;
@@ -73,15 +74,15 @@ public class AccountServiceImpl implements AccountService {
         }
 
         if (account.getPin() == null) {
-            throw new UnauthorizedException(ApiMessages.PIN_NOT_CREATED.getMessage());
+            throw new InvalidPinException(ApiMessages.PIN_NOT_CREATED.getMessage());
         }
 
         if (pin == null || pin.isEmpty()) {
-            throw new UnauthorizedException(ApiMessages.PIN_EMPTY_ERROR.getMessage());
+            throw new InvalidPinException(ApiMessages.PIN_EMPTY_ERROR.getMessage());
         }
 
         if (!passwordEncoder.matches(pin, account.getPin())) {
-            throw new UnauthorizedException(ApiMessages.PIN_INVALID_ERROR.getMessage());
+            throw new InvalidPinException(ApiMessages.PIN_INVALID_ERROR.getMessage());
         }
     }
 
@@ -92,11 +93,11 @@ public class AccountServiceImpl implements AccountService {
         }
 
         if (password == null || password.isEmpty()) {
-            throw new UnauthorizedException(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage());
+            throw new InvalidPasswordException(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage());
         }
 
         if (!passwordEncoder.matches(password, account.getUser().getPassword())) {
-            throw new UnauthorizedException(ApiMessages.PASSWORD_INVALID_ERROR.getMessage());
+            throw new InvalidPasswordException(ApiMessages.PASSWORD_INVALID_ERROR.getMessage());
         }
     }
 
@@ -106,7 +107,7 @@ public class AccountServiceImpl implements AccountService {
 
         val account = accountRepository.findByAccountNumber(accountNumber);
         if (account.getPin() != null) {
-            throw new UnauthorizedException(ApiMessages.PIN_ALREADY_EXISTS.getMessage());
+            throw new InvalidPinException(ApiMessages.PIN_ALREADY_EXISTS.getMessage());
         }
 
         if (pin == null || pin.isEmpty()) {
@@ -122,11 +123,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updatePin(String accountNumber, String oldPin, String password, String newPin) {
+    public void updatePin(String accountNumber, String password, String newPin) {
         log.info("Updating PIN for account: {}", accountNumber);
 
         validatePassword(accountNumber, password);
-        validatePin(accountNumber, oldPin);
 
         val account = accountRepository.findByAccountNumber(accountNumber);
 
@@ -149,10 +149,6 @@ public class AccountServiceImpl implements AccountService {
 
         if (amount % 100 != 0) {
             throw new InvalidAmountException(ApiMessages.AMOUNT_NOT_MULTIPLE_OF_100_ERROR.getMessage());
-        }
-
-        if (amount > 100000) {
-            throw new InvalidAmountException(ApiMessages.AMOUNT_EXCEED_100_000_ERROR.getMessage());
         }
     }
 

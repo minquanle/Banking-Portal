@@ -122,8 +122,7 @@ public class AccountServiceTests extends BaseTest {
 
         val newPin = getRandomPin();
 
-        accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"),
-                accountDetails.get("password"), newPin);
+        accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("password"), newPin);
 
         val account = accountRepository
                 .findByAccountNumber(accountDetails.get("accountNumber"));
@@ -134,7 +133,7 @@ public class AccountServiceTests extends BaseTest {
     @Test
     public void test_update_pin_with_invalid_account_number() {
         Assertions.assertThrows(NotFoundException.class, () -> {
-            accountService.updatePin(getRandomAccountNumber(), getRandomPin(), getRandomPassword(), getRandomPin());
+            accountService.updatePin(getRandomAccountNumber(), getRandomPassword(), getRandomPin());
         });
     }
 
@@ -143,8 +142,7 @@ public class AccountServiceTests extends BaseTest {
         val accountDetails = createAccountWithPin(passwordEncoder, userRepository, accountService);
 
         Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"),
-                    getRandomPassword(), getRandomPin());
+            accountService.updatePin(accountDetails.get("accountNumber"), getRandomPassword(), getRandomPin());
         });
     }
 
@@ -153,23 +151,11 @@ public class AccountServiceTests extends BaseTest {
         val accountDetails = createAccountWithPin(passwordEncoder, userRepository, accountService);
 
         Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"), null,
-                    getRandomPin());
+            accountService.updatePin(accountDetails.get("accountNumber"), null, getRandomPin());
         });
 
         Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"), "",
-                    getRandomPin());
-        });
-    }
-
-    @Test
-    public void test_update_pin_with_incorrect_pin() {
-        val accountDetails = createAccountWithPin(passwordEncoder, userRepository, accountService);
-
-        Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), getRandomPin(),
-                    accountDetails.get("password"), getRandomPin());
+            accountService.updatePin(accountDetails.get("accountNumber"), "", getRandomPin());
         });
     }
 
@@ -177,25 +163,14 @@ public class AccountServiceTests extends BaseTest {
     public void test_update_pin_for_account_with_no_pin() {
         val accountDetails = createAccount();
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), getRandomPin(),
-                    accountDetails.get("password"), getRandomPin());
-        });
-    }
+        // Now updatePin uses password only, so updating PIN for an account without PIN should be allowed
+        val newPin = getRandomPin();
+        accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("password"), newPin);
 
-    @Test
-    public void test_update_pin_with_missing_or_empty_old_pin() {
-        val accountDetails = createAccountWithPin(passwordEncoder, userRepository, accountService);
+        val account = accountRepository
+                .findByAccountNumber(accountDetails.get("accountNumber"));
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), null, accountDetails.get("password"),
-                    getRandomPin());
-        });
-
-        Assertions.assertThrows(UnauthorizedException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), "", accountDetails.get("password"),
-                    getRandomPin());
-        });
+        Assertions.assertTrue(passwordEncoder.matches(newPin, account.getPin()));
     }
 
     @Test
@@ -203,13 +178,11 @@ public class AccountServiceTests extends BaseTest {
         val accountDetails = createAccountWithPin(passwordEncoder, userRepository, accountService);
 
         Assertions.assertThrows(InvalidPinException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"),
-                    accountDetails.get("password"), null);
+            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("password"), null);
         });
 
         Assertions.assertThrows(InvalidPinException.class, () -> {
-            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("pin"),
-                    accountDetails.get("password"), "");
+            accountService.updatePin(accountDetails.get("accountNumber"), accountDetails.get("password"), "");
         });
     }
 

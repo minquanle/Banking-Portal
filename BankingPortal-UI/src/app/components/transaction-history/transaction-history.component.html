@@ -59,7 +59,7 @@
           <tbody class="bg-white divide-y divide-gray-300">
             <tr *ngFor="let transaction of filteredTransactionHistory" class="text-gray-900">
               <td class="px-4 py-3 text-center">{{ transaction.id }}</td>
-              <td class="px-4 py-3 font-semibold">{{ transaction.amount | currency:'INR':'symbol' }}</td>
+              <td class="px-4 py-3 font-semibold">{{ transaction.amount | currency:'VND':'symbol':'1.0-0' }}</td>
 
               <td class="px-4 py-3 text-center">{{ transaction.transactionDate | date:'yyyy-MM-dd' }}</td>
 

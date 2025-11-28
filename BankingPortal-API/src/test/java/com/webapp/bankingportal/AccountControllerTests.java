@@ -58,7 +58,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_create_with_invalid_password() throws Exception {
         val userDetails = createAndLoginUser();
 
-        val pinRequest = new PinRequest(userDetails.get("accountNumber"), getRandomPin(), getRandomPassword());
+        val pinRequest = new PinRequest(getRandomPin(), getRandomPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")
@@ -74,7 +74,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_create_with_missing_password() throws Exception {
         val userDetails = createAndLoginUser();
 
-        val pinRequest = new PinRequest(userDetails.get("accountNumber"), getRandomPin(), null);
+        val pinRequest = new PinRequest(getRandomPin(), null);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")
@@ -90,7 +90,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_create_with_missing_pin() throws Exception {
         val userDetails = createAndLoginUser();
 
-        val pinRequest = new PinRequest(userDetails.get("accountNumber"), null, userDetails.get("password"));
+        val pinRequest = new PinRequest(null, userDetails.get("password"));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")
@@ -106,7 +106,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_create_with_invalid_short_pin() throws Exception {
         val userDetails = createAndLoginUser();
 
-        val pinRequest = new PinRequest(userDetails.get("accountNumber"), faker.number().digits(3),
+        val pinRequest = new PinRequest(faker.number().digits(3),
                 userDetails.get("password"));
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -123,7 +123,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_create_with_invalid_long_pin() throws Exception {
         val userDetails = createAndLoginUser();
 
-        val pinRequest = new PinRequest(userDetails.get("accountNumber"), faker.number().digits(5),
+        val pinRequest = new PinRequest(faker.number().digits(5),
                 userDetails.get("password"));
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -138,7 +138,7 @@ public class AccountControllerTests extends BaseTest {
 
     @Test
     public void test_pin_create_unauthorized_access() throws Exception {
-        val pinRequest = new PinRequest(getRandomAccountNumber(), getRandomPin(), getRandomPassword());
+        val pinRequest = new PinRequest(getRandomPin(), getRandomPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/create")
@@ -151,8 +151,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_valid_data() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"),
-                getRandomPin(), userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -168,8 +167,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_invalid_password() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"),
-                getRandomPin(), getRandomPassword());
+        val pinUpdateRequest = new PinUpdateRequest(getRandomPassword(), getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -185,25 +183,23 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_invalid_old_pin() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), getRandomPin(), getRandomPin(),
-                userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
                 .header("Authorization", "Bearer " + userDetails.get("token"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(pinUpdateRequest)))
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.PIN_INVALID_ERROR.getMessage()));
+                        .string(ApiMessages.PIN_UPDATE_SUCCESS.getMessage()));
     }
 
     @Test
     public void test_pin_update_with_invalid_new_short_pin() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"),
-                faker.number().digits(3), userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), faker.number().digits(3));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -219,8 +215,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_invalid_new_long_pin() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"),
-                faker.number().digits(5), userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), faker.number().digits(5));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -236,8 +231,7 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_missing_password() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"),
-                getRandomPin(), null);
+        val pinUpdateRequest = new PinUpdateRequest(null, getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -253,25 +247,23 @@ public class AccountControllerTests extends BaseTest {
     public void test_pin_update_with_missing_old_pin() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), null, getRandomPin(),
-                userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
                 .header("Authorization", "Bearer " + userDetails.get("token"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.toJson(pinUpdateRequest)))
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.PIN_EMPTY_ERROR.getMessage()));
+                        .string(ApiMessages.PIN_UPDATE_SUCCESS.getMessage()));
     }
 
     @Test
     public void test_pin_update_with_missing_new_pin() throws Exception {
         val userDetails = createAndLoginUserWithPin();
 
-        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("accountNumber"), userDetails.get("pin"), null,
-                userDetails.get("password"));
+        val pinUpdateRequest = new PinUpdateRequest(userDetails.get("password"), null);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
@@ -285,8 +277,7 @@ public class AccountControllerTests extends BaseTest {
 
     @Test
     public void test_pin_update_with_unauthorized_access() throws Exception {
-        val pinUpdateRequest = new PinUpdateRequest(getRandomAccountNumber(), getRandomPin(), getRandomPin(),
-                getRandomPassword());
+        val pinUpdateRequest = new PinUpdateRequest(getRandomPassword(), getRandomPin());
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/account/pin/update")
