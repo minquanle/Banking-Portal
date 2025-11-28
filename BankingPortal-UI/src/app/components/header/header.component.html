@@ -9,7 +9,10 @@
       NonStopBank
     </h1>
 
-    <div class="nav-body w-full flex justify-end space-x-4 p-1">
+    <div class="nav-body w-full flex justify-end items-center space-x-4 p-1">
+      <!-- Notification Component (only shown when logged in) -->
+      <app-notification *ngIf="isLoggedIn()"></app-notification>
+
       <a
         *ngIf="!isLoggedIn()"
         routerLink="/login"

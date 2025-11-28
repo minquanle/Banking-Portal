@@ -66,4 +66,29 @@ export class ApiService {
   getAccountDetails(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/dashboard/account`);
   }
+
+  // Notification API Endpoints
+  getNotifications(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/notifications`);
+  }
+
+  getUnreadNotifications(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/notifications/unread`);
+  }
+
+  getUnreadNotificationCount(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/notifications/unread/count`);
+  }
+
+  markNotificationAsRead(notificationId: number): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/notifications/${notificationId}/read`, {});
+  }
+
+  markAllNotificationsAsRead(): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/notifications/read-all`, {});
+  }
+
+  deleteNotification(notificationId: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/notifications/${notificationId}`);
+  }
 }

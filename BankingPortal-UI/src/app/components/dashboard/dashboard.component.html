@@ -1,19 +1,24 @@
 <div class="coverparentspace">
-
-  <div class="cards-wrapper w-full flex gap-2">
-    <div class="w-full mb-2">
+  <!-- User Profile and Account Cards -->
+  <div class="cards-wrapper w-full flex gap-2 mb-4">
+    <div class="w-full">
       <app-userprofilecard></app-userprofilecard>
     </div>
-    <div class="w-full mb-2">
+    <div class="w-full">
       <app-accountdetailcard></app-accountdetailcard>
     </div>
   </div>
 
-
-
-
-  <app-transaction-history></app-transaction-history>
-
-
+  <!-- Transaction History Section -->
+  <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-2xl font-bold text-gray-800">
+        <i class="fas fa-history mr-2 text-blue-600"></i>
+        Lịch sử giao dịch
+      </h2>
+    </div>
+    <app-transaction-history></app-transaction-history>
+  </div>
 </div>
+
 <app-pin-creation-model *ngIf="showPINCreationModel" (redirect)="redirectToPINCreationPage()"></app-pin-creation-model>
