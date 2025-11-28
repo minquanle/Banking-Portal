@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.webapp.bankingportal.entity.Account;
+import com.webapp.bankingportal.entity.NotificationType;
 import com.webapp.bankingportal.entity.Transaction;
 import com.webapp.bankingportal.entity.TransactionType;
 import com.webapp.bankingportal.entity.User;
@@ -37,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final TransactionRepository transactionRepository;
+    @Autowired
+    private final NotificationService notificationService;
 
     @Override
     public Account createAccount(User user) {
@@ -170,6 +173,16 @@ public class AccountServiceImpl implements AccountService {
         transaction.setTransactionDate(new Date());
         transaction.setSourceAccount(account);
         transactionRepository.save(transaction);
+
+        // Create notification for deposit
+        notificationService.createNotification(
+            account,
+            "Tiền gửi thành công",
+            String.format("Bạn đã nạp %.0f VNĐ vào tài khoản. Số dư mới: %.0f VNĐ", amount, newBalance),
+            NotificationType.DEPOSIT,
+            amount,
+            null
+        );
     }
 
     @Transactional
@@ -194,6 +207,16 @@ public class AccountServiceImpl implements AccountService {
         transaction.setTransactionDate(new Date());
         transaction.setSourceAccount(account);
         transactionRepository.save(transaction);
+
+        // Create notification for withdrawal
+        notificationService.createNotification(
+            account,
+            "Rút tiền thành công",
+            String.format("Bạn đã rút %.0f VNĐ từ tài khoản. Số dư mới: %.0f VNĐ", amount, newBalance),
+            NotificationType.WITHDRAW,
+            amount,
+            null
+        );
     }
 
     @Transactional
@@ -233,6 +256,28 @@ public class AccountServiceImpl implements AccountService {
         transaction.setSourceAccount(sourceAccount);
         transaction.setTargetAccount(targetAccount);
         transactionRepository.save(transaction);
+
+        // Create notification for sender
+        notificationService.createNotification(
+            sourceAccount,
+            "Chuyển tiền thành công",
+            String.format("Bạn đã chuyển %.0f VNĐ đến tài khoản %s. Số dư mới: %.0f VNĐ",
+                amount, targetAccountNumber, newSourceBalance),
+            NotificationType.TRANSFER_SENT,
+            amount,
+            targetAccountNumber
+        );
+
+        // Create notification for receiver
+        notificationService.createNotification(
+            targetAccount,
+            "Nhận tiền thành công",
+            String.format("Bạn đã nhận %.0f VNĐ từ tài khoản %s. Số dư mới: %.0f VNĐ",
+                amount, sourceAccountNumber, newTargetBalance),
+            NotificationType.TRANSFER_RECEIVED,
+            amount,
+            sourceAccountNumber
+        );
     }
 
 }

@@ -1,6 +1,7 @@
 import { ToastService } from 'angular-toastify';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadermodelService } from 'src/app/services/loadermodel.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +20,8 @@ export class DepositComponent implements OnInit {
     private apiService: ApiService,
     private _toastService: ToastService,
     private router: Router,
-    private loader: LoadermodelService // Inject the LoaderService here
+    private loader: LoadermodelService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +51,8 @@ export class DepositComponent implements OnInit {
             // Handle successful deposit if needed
             this._toastService.success(response.msg);
             this.depositForm.reset();
+            // Trigger notification refresh
+            this.notificationService.triggerRefresh();
             this.router.navigate(['/dashboard']);
             console.log('Deposit successful!', response);
           },

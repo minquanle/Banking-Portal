@@ -30,7 +30,22 @@ export class TransactionHistoryComponent implements OnInit {
       .getTransactions()
       .pipe(
         tap((data) => {
-          this.transactionHistory = data; // Assign the received data to the transactionHistory property
+          // Normalize incoming data: make sure transactionDate is a valid Date object
+          this.transactionHistory = (data || []).map((tx: any) => {
+            const raw =
+              tx.transactionDate ??
+              tx.timestamp ??
+              tx.createdAt ??
+              tx.date ??
+              tx.transaction_date ??
+              tx.time;
+            const parsedDate = this.parseDate(raw);
+            return {
+              ...tx,
+              transactionDate: parsedDate,
+            };
+          });
+
           this.filterTransactions(); // Apply initial filtering based on the current filter criteria
           console.log(this.transactionHistory); // Now the data will be logged in the console
         }),
@@ -42,17 +57,40 @@ export class TransactionHistoryComponent implements OnInit {
       .subscribe();
   }
 
-  getTransactionStatus(transaction: TransactionComponent): string {
-    let status = transaction.transactionType.slice(5).toLowerCase();
+  // Normalize various possible timestamp formats coming from backend
+  parseDate(timestamp: any): Date {
+    if (!timestamp) return new Date();
 
-    if (
-      status === 'transfer' &&
-      transaction.targetAccountNumber === this.userAccountNumber
-    ) {
-      return 'Credit';
+    if (timestamp instanceof Date) return timestamp;
+
+    if (typeof timestamp === 'number') {
+      return timestamp < 10000000000
+        ? new Date(timestamp * 1000)
+        : new Date(timestamp);
     }
 
-    return status.charAt(0).toUpperCase() + status.slice(1);
+    if (typeof timestamp === 'string') {
+      const d = new Date(timestamp);
+      if (!isNaN(d.getTime())) return d;
+
+      // Try parsing common SQL datetime format by replacing space with T
+      const replaced = timestamp.replace(' ', 'T');
+      const d2 = new Date(replaced);
+      if (!isNaN(d2.getTime())) return d2;
+    }
+
+    if (Array.isArray(timestamp)) {
+      const [year, month, day, hour = 0, minute = 0, second = 0] = timestamp;
+      return new Date(year, month - 1, day, hour, minute, second);
+    }
+
+    console.warn('Unable to parse timestamp in transaction-history:', timestamp);
+    return new Date();
+  }
+
+  getTransactionStatus(transaction: TransactionComponent): string {
+    // Per user request: show all transactions as "Vừa xong"
+    return 'Vừa xong';
   }
 
   filterTransactions(): void {

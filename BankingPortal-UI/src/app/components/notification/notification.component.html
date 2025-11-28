@@ -1,0 +1,106 @@
+<div class="notification-container relative">
+  <!-- Notification Bell Icon -->
+  <button
+    (click)="toggleDropdown()"
+    class="relative p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+    aria-label="Notifications">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+      </path>
+    </svg>
+    <!-- Unread Count Badge -->
+    <span
+      *ngIf="unreadCount > 0"
+      class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+      {{ unreadCount > 99 ? '99+' : unreadCount }}
+    </span>
+  </button>
+
+  <!-- Notification Dropdown -->
+  <div
+    *ngIf="isOpen"
+    class="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-200"
+    style="max-height: 500px;">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">Thông báo</h3>
+      <button
+        *ngIf="notifications.length > 0"
+        (click)="markAllAsRead()"
+        class="text-sm text-blue-600 hover:text-blue-800">
+        Đánh dấu tất cả đã đọc
+      </button>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="overflow-y-auto" style="max-height: 400px;">
+      <div *ngIf="isLoading" class="p-4 text-center text-gray-500">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+        <p class="mt-2">Đang tải...</p>
+      </div>
+
+      <div *ngIf="!isLoading && notifications.length === 0" class="p-8 text-center text-gray-500">
+        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
+          </path>
+        </svg>
+        <p>Không có thông báo nào</p>
+      </div>
+
+      <div
+        *ngFor="let notification of notifications"
+        (click)="markAsRead(notification)"
+        class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors"
+        [class.bg-blue-50]="!notification.isRead">
+
+        <div class="flex items-start">
+          <!-- Icon -->
+          <div class="flex-shrink-0 mr-3">
+            <span class="text-2xl">{{ getNotificationIcon(notification.type) }}</span>
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="text-sm font-semibold text-gray-900 truncate" [ngClass]="getNotificationColor(notification.type)">
+                {{ notification.title }}
+              </h4>
+              <button
+                (click)="deleteNotification(notification, $event)"
+                class="ml-2 text-gray-400 hover:text-red-600 focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+            <p class="text-sm text-gray-600 mb-2">{{ notification.message }}</p>
+
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500">{{ getTimeAgo(notification.createdAt) }}</span>
+              <span *ngIf="!notification.isRead" class="inline-block w-2 h-2 bg-blue-600 rounded-full"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="p-3 bg-gray-50 text-center border-t border-gray-200 rounded-b-lg">
+      <button (click)="closeDropdown()" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+        Đóng
+      </button>
+    </div>
+  </div>
+
+  <!-- Backdrop to close dropdown when clicking outside -->
+  <div
+    *ngIf="isOpen"
+    (click)="toggleDropdown()"
+    class="fixed inset-0 z-40"
+    style="background: transparent;">
+  </div>
+</div>
