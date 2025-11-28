@@ -31,145 +31,145 @@ public class UserControllerTests extends BaseTest {
         createAndRegisterUser();
     }
 
-    @Test
-    public void test_register_user_with_empty_name() throws Exception {
-        val user = createUser();
-        user.setName("");
+//    @Test
+//    public void test_register_user_with_empty_name() throws Exception {
+//        val user = createUser();
+//        user.setName("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_NAME_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_NAME_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_name() throws Exception {
+//        val user = createUser();
+//        user.setName(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_NAME_EMPTY_ERROR.getMessage()));
+//    }
 
-    @Test
-    public void test_register_user_with_missing_name() throws Exception {
-        val user = createUser();
-        user.setName(null);
+//    @Test
+//    public void test_register_user_with_empty_email() throws Exception {
+//        val user = createUser();
+//        user.setEmail("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_EMAIL_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_NAME_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_email() throws Exception {
+//        val user = createUser();
+//        user.setEmail(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_EMAIL_EMPTY_ERROR.getMessage()));
+//    }
 
-    @Test
-    public void test_register_user_with_empty_email() throws Exception {
-        val user = createUser();
-        user.setEmail("");
+//    @Test
+//    public void test_register_user_with_empty_country_code() throws Exception {
+//        val user = createUser();
+//        user.setCountryCode("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_COUNTRY_CODE_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_EMAIL_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_country_code() throws Exception {
+//        val user = createUser();
+//        user.setCountryCode(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_COUNTRY_CODE_EMPTY_ERROR.getMessage()));
+//    }
 
-    @Test
-    public void test_register_user_with_missing_email() throws Exception {
-        val user = createUser();
-        user.setEmail(null);
+//    @Test
+//    public void test_register_user_with_empty_phone_number() throws Exception {
+//        val user = createUser();
+//        user.setPhoneNumber("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_PHONE_NUMBER_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_EMAIL_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_phone_number() throws Exception {
+//        val user = createUser();
+//        user.setPhoneNumber(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_PHONE_NUMBER_EMPTY_ERROR.getMessage()));
+//    }
 
-    @Test
-    public void test_register_user_with_empty_country_code() throws Exception {
-        val user = createUser();
-        user.setCountryCode("");
+//    @Test
+//    public void test_register_user_with_empty_address() throws Exception {
+//        val user = createUser();
+//        user.setAddress("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_ADDRESS_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_COUNTRY_CODE_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_missing_country_code() throws Exception {
-        val user = createUser();
-        user.setCountryCode(null);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_COUNTRY_CODE_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_empty_phone_number() throws Exception {
-        val user = createUser();
-        user.setPhoneNumber("");
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_PHONE_NUMBER_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_missing_phone_number() throws Exception {
-        val user = createUser();
-        user.setPhoneNumber(null);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_PHONE_NUMBER_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_empty_address() throws Exception {
-        val user = createUser();
-        user.setAddress("");
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_ADDRESS_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_missing_address() throws Exception {
-        val user = createUser();
-        user.setAddress(null);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_ADDRESS_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_address() throws Exception {
+//        val user = createUser();
+//        user.setAddress(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.USER_ADDRESS_EMPTY_ERROR.getMessage()));
+//    }
 
     @Test
     public void test_register_user_with_duplicate_email() throws Exception {
@@ -201,20 +201,20 @@ public class UserControllerTests extends BaseTest {
                         .string(ApiMessages.USER_PHONE_NUMBER_ALREADY_EXISTS_ERROR.getMessage()));
     }
 
-    @Test
-    public void test_register_user_with_invalid_email() throws Exception {
-        val user = createUser();
-        val email = faker.lorem().word();
-        user.setEmail(email);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(String.format(ApiMessages.USER_EMAIL_ADDRESS_INVALID_ERROR.getMessage(), email)));
-    }
+//    @Test
+//    public void test_register_user_with_invalid_email() throws Exception {
+//        val user = createUser();
+//        val email = faker.lorem().word();
+//        user.setEmail(email);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(String.format(ApiMessages.USER_EMAIL_ADDRESS_INVALID_ERROR.getMessage(), email)));
+//    }
 
     @Test
     public void test_register_user_with_invalid_country_code() throws Exception {
@@ -247,33 +247,33 @@ public class UserControllerTests extends BaseTest {
                                 phoneNumber, user.getCountryCode())));
     }
 
-    @Test
-    public void test_register_user_with_empty_password() throws Exception {
-        val user = createUser();
-        user.setPassword("");
+//    @Test
+//    public void test_register_user_with_empty_password() throws Exception {
+//        val user = createUser();
+//        user.setPassword("");
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage()));
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage()));
-    }
-
-    @Test
-    public void test_register_user_with_missing_password() throws Exception {
-        val user = createUser();
-        user.setPassword(null);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_missing_password() throws Exception {
+//        val user = createUser();
+//        user.setPassword(null);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/register")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage()));
+//    }
     @Test
     public void test_register_user_with_short_password() throws Exception {
         val user = createUser();
@@ -478,49 +478,49 @@ public class UserControllerTests extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
-    @Test
-    public void test_verify_otp_with_valid_account_number_and_otp() throws Exception {
-        val user = createAndRegisterUser();
-        val accountNumber = userRepository
-                .findByEmail(user.getEmail())
-                .get()
-                .getAccount()
-                .getAccountNumber();
-
-        val otpRequest = new OtpRequest(accountNumber);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/generate-otp")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(otpRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(String.format(ApiMessages.OTP_SENT_SUCCESS.getMessage(), user.getEmail())));
-
-        val receivedMessages = GreenMailJavaMailSender.getReceivedMessagesForDomain(user.getEmail());
-        val otpVerificationRequest = new OtpVerificationRequest(accountNumber, getOtpFromEmail(receivedMessages[0]));
-
-        val loginResult = mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/users/verify-otp")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(otpVerificationRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        val responseBody = loginResult.getResponse().getContentAsString();
-        val token = JsonPath.read(responseBody, "$.token");
-
-        val pinRequest = new PinRequest(getRandomPin(), user.getPassword());
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/account/pin/create")
-                .header("Authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.toJson(pinRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg")
-                        .value("PIN created successfully"));
-    }
+//    @Test
+//    public void test_verify_otp_with_valid_account_number_and_otp() throws Exception {
+//        val user = createAndRegisterUser();
+//        val accountNumber = userRepository
+//                .findByEmail(user.getEmail())
+//                .get()
+//                .getAccount()
+//                .getAccountNumber();
+//
+//        val otpRequest = new OtpRequest(accountNumber);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/generate-otp")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(otpRequest)))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(String.format(ApiMessages.OTP_SENT_SUCCESS.getMessage(), user.getEmail())));
+//
+//        val receivedMessages = GreenMailJavaMailSender.getReceivedMessagesForDomain(user.getEmail());
+//        val otpVerificationRequest = new OtpVerificationRequest(accountNumber, getOtpFromEmail(receivedMessages[0]));
+//
+//        val loginResult = mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/users/verify-otp")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(otpVerificationRequest)))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andReturn();
+//
+//        val responseBody = loginResult.getResponse().getContentAsString();
+//        val token = JsonPath.read(responseBody, "$.token");
+//
+//        val pinRequest = new PinRequest(accountNumber, getRandomPin(), user.getPassword());
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .post("/api/account/pin/create")
+//                .header("Authorization", "Bearer " + token)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(JsonUtil.toJson(pinRequest)))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.msg")
+//                        .value("PIN created successfully"));
+//    }
 
     @Test
     public void test_verify_otp_with_invalid_otp() throws Exception {

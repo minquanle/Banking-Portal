@@ -1,0 +1,75 @@
+name : CI
+
+on :
+  push:
+    branches: ["main","nam"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BankingPortal-API
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h "127.0.0.1" --silent; do
+            echo "Waiting for MySQL..."
+            sleep 3
+          done
+
+      - name: Create application-test.properties
+        run: |
+          mkdir -p src/test/resources
+          echo "spring.datasource.url=jdbc:mysql://127.0.0.1:3306/testdb" > src/test/resources/application-test.properties
+          echo "spring.datasource.username=user" >> src/test/resources/application-test.properties
+          echo "spring.datasource.password=password" >> src/test/resources/application-test.properties
+          echo "spring.jpa.hibernate.ddl-auto=update" >> src/test/resources/application-test.properties
+          echo "spring.jpa.properties.hibernate.hbm2ddl.create_namespaces=true" >> src/test/resources/application-test.properties
+          echo "spring.jpa.show-sql=true" >> src/test/resources/application-test.properties
+          echo "spring.sql.init.mode=always" >> src/test/resources/application-test.properties
+          echo "jwt.secret=Z1lWc2R6b1pEblpYbVdUZ2V1U1VxRmZzZld0U2RkaXU=" >> src/test/resources/application-test.properties
+          echo "jwt.expiration=3600000" >> src/test/resources/application-test.properties
+          echo "spring.mail.username=${{secrets.SPRING_MAIL_USERNAME}}" >> src/test/resources/application-test.properties
+          echo "spring.mail.password=${{secrets.SPRING_MAIL_PASSWORD}}" >> src/test/resources/application-test.properties
+          echo "geo.api.url=https://api.findip.net/" >> src/test/resources/application-test.properties
+          echo "geo.api.key=${{secrets.SPRING_GEO_KEY}}" >> src/test/resources/application-test.properties
+          echo "spring.mail.host=smtp.gmail.com" >> src/test/resources/application-test.properties
+          echo "spring.mail.port=587" >> src/test/resources/application-test.properties
+          echo "spring.mail.properties.mail.smtp.auth=true" >> src/test/resources/application-test.properties
+          echo "spring.mail.properties.mail.smtp.starttls.enable=true" >> src/test/resources/application-test.properties
+          echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> src/test/resources/application-test.properties
+          echo "spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect" >> src/test/resources/application-test.properties
+          echo "jwt.header=Authorization" >> src/test/resources/application-test.properties
+          echo "jwt.prefix=Bearer" >> src/test/resources/application-test.properties
+      - name: Build backend
+        run: mvn clean package -DskipTests
+
+      - name: Run TESTS
+        run: mvn test
