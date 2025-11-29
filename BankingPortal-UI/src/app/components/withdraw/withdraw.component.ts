@@ -2,6 +2,7 @@ import { ToastService } from 'angular-toastify';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadermodelService } from 'src/app/services/loadermodel.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { SpendingLimitService } from 'src/app/services/spending-limit.service';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +22,8 @@ export class WithdrawComponent implements OnInit {
     private _toastService: ToastService,
     private router: Router,
     private loader: LoadermodelService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private spendingLimitService: SpendingLimitService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,16 @@ export class WithdrawComponent implements OnInit {
     if (this.withdrawForm.valid) {
       const amount = this.withdrawForm.get('amount')?.value;
       const pin = this.withdrawForm.get('pin')?.value;
+
+      // Check spending limit
+      const limitCheck = this.spendingLimitService.checkIfWillExceedLimit(amount);
+      if (limitCheck.isExceeded) {
+        // Show confirmation dialog
+        const confirmed = confirm(limitCheck.message);
+        if (!confirmed) {
+          return; // User cancelled the transaction
+        }
+      }
 
       this.loader.show('Withdrawing...'); // Show the loader before making the API call
       this.apiService.withdraw(amount, pin).subscribe({

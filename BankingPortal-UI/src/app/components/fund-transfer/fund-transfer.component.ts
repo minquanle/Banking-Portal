@@ -2,6 +2,7 @@ import { ToastService } from 'angular-toastify';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadermodelService } from 'src/app/services/loadermodel.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { SpendingLimitService } from 'src/app/services/spending-limit.service';
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +22,8 @@ export class FundTransferComponent implements OnInit {
     private _toastService: ToastService,
     private router: Router,
     private loader: LoadermodelService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private spendingLimitService: SpendingLimitService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,6 @@ export class FundTransferComponent implements OnInit {
       targetAccountNumber: ['', [Validators.required]],
     });
   }
-
   onSubmit(): void {
     if (this.fundTransferForm?.valid) {
       const amount = this.fundTransferForm.get('amount')?.value;
@@ -48,6 +49,16 @@ export class FundTransferComponent implements OnInit {
       )?.value;
 
       if (amount !== null && pin !== null && targetAccountNumber !== null) {
+        // Check spending limit
+        const limitCheck = this.spendingLimitService.checkIfWillExceedLimit(amount);
+        if (limitCheck.isExceeded) {
+          // Show confirmation dialog
+          const confirmed = confirm(limitCheck.message);
+          if (!confirmed) {
+            return; // User cancelled the transaction
+          }
+        }
+
         this.loader.show('Transferring funds...'); // Show the loader before making the API call
         this.apiService
           .fundTransfer(amount, pin, targetAccountNumber)

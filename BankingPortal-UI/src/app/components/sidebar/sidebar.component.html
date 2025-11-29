@@ -24,44 +24,11 @@
         <li class="mb-5">
           <a
             routerLinkActive="active-link"
-            routerLinkActive="active-link"
             routerLink="/dashboard"
             class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold text-gray-300 transition-colors duration-150"
           >
             <i class="fas fa-tachometer-alt"></i>
             <span [ngClass]="{ 'hide-logo': !sidebarVisible }">Dashboard</span>
-          </a>
-        </li>
-        <li class="mb-5">
-          <a
-            routerLinkActive="active-link"
-            routerLink="/account/deposit"
-            class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold text-gray-300 transition-colors duration-150"
-          >
-            <i class="fas fa-money-bill-wave"></i>
-            <span [ngClass]="{ 'hide-logo': !sidebarVisible }">Deposit</span>
-          </a>
-        </li>
-        <li class="mb-5">
-          <a
-            routerLinkActive="active-link"
-            routerLink="/account/withdraw"
-            class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold text-gray-300 transition-colors duration-150"
-          >
-            <i class="fas fa-money-bill"></i>
-            <span [ngClass]="{ 'hide-logo': !sidebarVisible }">Withdraw</span>
-          </a>
-        </li>
-        <li class="mb-5">
-          <a
-            routerLinkActive="active-link"
-            routerLink="/account/fund-transfer"
-            class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold text-gray-300 transition-colors duration-150"
-          >
-            <i class="fas fa-exchange-alt"></i>
-            <span [ngClass]="{ 'hide-logo': !sidebarVisible }"
-              >Fund Transfer</span
-            >
           </a>
         </li>
         <li class="mb-5">
@@ -76,14 +43,18 @@
             >
           </a>
         </li>
-        <!-- <li class="mb-5">
-          <a  routerLinkActive="active-link" routerLink="/account"
-            class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold  text-gray-300 transition-colors duration-150">
-            <i class="fas fa-address-card"></i>
-            <span [ngClass]="{'hide-logo': !sidebarVisible}">Account Details</span>
-
+        <li class="mb-5">
+          <a
+            routerLinkActive="active-link"
+            routerLink="/account/spending-limit"
+            class="sidebar-link inline-flex items-center gap-4 w-full text-normal font-semibold text-gray-300 transition-colors duration-150"
+          >
+            <i class="fas fa-chart-line"></i>
+            <span [ngClass]="{ 'hide-logo': !sidebarVisible }"
+              >Quản lí chi tiêu</span
+            >
           </a>
-        </li> -->
+        </li>
         <li class="mb-5">
           <a
             routerLinkActive="active-link"

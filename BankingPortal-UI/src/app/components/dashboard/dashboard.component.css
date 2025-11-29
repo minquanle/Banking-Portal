@@ -4,14 +4,12 @@
 }
 
 @media (max-width: 640px) {
-
     .cards-wrapper {
         flex-direction: column;
     }
 }
 
 :host {
-
     display: flex;
     flex: 1;
 }
@@ -20,4 +18,98 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* Immediate fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* Apply staggered animation to grid children */
+.grid > div:nth-child(1) {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.grid > div:nth-child(2) {
+    animation: fadeInUp 0.4s ease-out 0.1s;
+    animation-fill-mode: both;
+}
+
+.grid > div:nth-child(3) {
+    animation: fadeInUp 0.4s ease-out 0.2s;
+    animation-fill-mode: both;
+}
+
+/* Performance optimizations */
+.group {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Smooth hover - immediate response */
+.group:hover {
+    transform: translateY(-4px) scale(1.02) translateZ(0);
+}
+
+/* Prevent layout shift */
+.grid {
+    min-height: 250px;
+}
+
+/* Cursor pointer for better UX */
+.cursor-pointer {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Loading skeleton animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+    background-size: 1000px 100%;
+}
+
+/* Ensure cards are clickable */
+.group {
+    position: relative;
+    z-index: 1;
 }

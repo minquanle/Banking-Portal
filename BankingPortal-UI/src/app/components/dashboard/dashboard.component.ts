@@ -10,24 +10,32 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   showPINCreationModel: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    // Check if the user has created a PIN.
-    this.checkPINStatus();
+    // Check PIN status asynchronously without blocking UI
+    // Use setTimeout to defer API call after initial render
+    setTimeout(() => {
+      this.checkPINStatus();
+    }, 0);
   }
 
   checkPINStatus(): void {
+    this.isLoading = true;
     this.apiService.checkPinCreated().subscribe({
       next: (response: any) => {
+        this.isLoading = false;
         if (response && response.hasPIN === false) {
           // Show the PIN creation model.
           this.showPINCreationModel = true;
         }
       },
       error: (error: any) => {
+        this.isLoading = false;
         console.error('Error checking PIN status:', error);
+        // Don't block UI even if API fails
       },
     });
   }
@@ -37,5 +45,9 @@ export class DashboardComponent implements OnInit {
     this.showPINCreationModel = false;
     // Redirect the user to the PIN creation page.
     this.router.navigate(['/account/pin']);
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }

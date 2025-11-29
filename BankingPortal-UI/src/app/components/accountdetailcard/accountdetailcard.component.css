@@ -1,15 +1,160 @@
+/* Premium account detail card styles */
 
-.glass-effect {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-@media (max-width: 640px) {
-
-    
-    .card-row{
-        flex-direction: column;
-    }
-
+:host {
+  display: block;
 }
+
+/* Smooth transitions */
+:host-context(.rounded-2xl) {
+  transition: all 0.3s ease;
+}
+
+:host-context(.rounded-2xl):hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Header gradient animation */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Content animations */
+.grid > div {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.grid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.grid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+/* Label hover effects */
+label {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+label:hover {
+  color: rgb(37, 99, 235);
+}
+
+/* Info cards hover */
+.bg-green-50, .bg-blue-50, .bg-purple-50 {
+  transition: all 0.3s ease;
+}
+
+.bg-green-50:hover, .bg-blue-50:hover, .bg-purple-50:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Icon animation */
+i {
+  transition: transform 0.3s ease;
+}
+
+label:hover i {
+  transform: scale(1.2);
+}
+
+/* Balance highlight */
+.text-4xl {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow: 0 0 0 rgba(37, 99, 235, 0);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+  }
+}
+
+/* Divider animation */
+.border-t {
+  animation: expandWidth 0.6s ease-out 0.4s both;
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Eye button styles */
+button {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Eye icon animation */
+button i {
+  animation: eyeBlink 0.4s ease-out;
+}
+
+@keyframes eyeBlink {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.3);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Balance text animation */
+.text-white.text-4xl {
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  button {
+    p-4 {
+      padding: 0.75rem;
+    }
+  }
+}
+

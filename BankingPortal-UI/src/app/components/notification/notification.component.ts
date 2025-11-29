@@ -128,15 +128,17 @@ export class NotificationComponent implements OnInit, OnDestroy {
             case 'fund transfer':
             case 'transfer':
               // Check if current user is the sender or receiver
-              const isOutgoing = transaction.sourceAccountNumber === this.currentAccountNumber;
+              const sourceAcc = transaction.sourceAccountNumber || '';
+              const targetAcc = transaction.targetAccountNumber || '';
+              const isOutgoing = sourceAcc === this.currentAccountNumber;
 
               if (isOutgoing) {
                 title = 'Chuyển tiền thành công';
-                message = `Bạn đã chuyển ${this.formatAmount(transaction.amount)} đến TK ${transaction.targetAccountNumber}`;
+                message = `Bạn đã chuyển ${this.formatAmount(transaction.amount)} đến TK ${targetAcc}`;
                 type = 'TRANSFER_OUT';
               } else {
                 title = 'Nhận tiền thành công';
-                message = `Bạn đã nhận ${this.formatAmount(transaction.amount)} từ TK ${transaction.sourceAccountNumber}`;
+                message = `Bạn đã nhận ${this.formatAmount(transaction.amount)} từ TK ${sourceAcc}`;
                 type = 'TRANSFER_IN';
               }
               break;

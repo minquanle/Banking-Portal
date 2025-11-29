@@ -1,0 +1,274 @@
+<div class="coverparentspace min-h-screen overflow-y-auto bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg shadow-lg p-4 m-4">
+  <!-- Header Section -->
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h2 class="text-3xl font-bold text-gray-800 flex items-center">
+        <i class="fas fa-chart-pie mr-3 text-blue-600"></i>Quản Lý Chi Tiêu
+      </h2>
+      <p class="text-gray-600 mt-1">Theo dõi và kiểm soát chi tiêu của bạn</p>
+    </div>
+    <button *ngIf="!isEditMode" (click)="enableEditMode()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 shadow-md hover:shadow-lg flex items-center gap-2">
+      <i class="fas fa-edit"></i>Thiết lập hạn mức
+    </button>
+    <div *ngIf="isEditMode" class="flex gap-3">
+      <button (click)="saveEdit()"
+              class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition duration-300 shadow-md flex items-center gap-2">
+        <i class="fas fa-save"></i>Lưu
+      </button>
+      <button (click)="cancelEdit()"
+              class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg transition duration-300 shadow-md flex items-center gap-2">
+        <i class="fas fa-times"></i>Hủy
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+    <!-- Left Column - Spending Cards -->
+    <div class="lg:col-span-2 space-y-3">
+
+      <!-- Weekly Spending Card -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-white text-lg font-semibold flex items-center">
+                <i class="fas fa-calendar-week mr-2"></i>Chi Tiêu Tuần
+              </h3>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-full p-3">
+              <i class="fas fa-calendar-week text-white text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-end justify-between mb-4">
+            <div>
+              <p class="text-gray-500 text-sm font-medium mb-1">Chi tiêu hiện tại</p>
+              <p class="text-3xl font-bold text-gray-800">{{ formatAmount(weeklySpending) }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-gray-500 text-sm mb-1">Hạn mức</p>
+              <p *ngIf="!isEditMode" class="text-lg font-semibold text-gray-700">
+                {{ weeklyLimit > 0 ? formatAmount(weeklyLimit) : 'Chưa đặt' }}
+              </p>
+              <input *ngIf="isEditMode" type="number" [(ngModel)]="tempWeeklyLimit"
+                     class="w-40 px-3 py-2 border-2 border-purple-300 rounded-lg focus:outline-none focus:border-purple-600"
+                     placeholder="Hạn mức tuần" min="0">
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="mb-3">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Tiến độ</span>
+              <span class="text-sm font-bold" [ngClass]="{
+                'text-red-600': weeklyPercentage >= 100,
+                'text-orange-600': weeklyPercentage >= 80 && weeklyPercentage < 100,
+                'text-yellow-600': weeklyPercentage >= 60 && weeklyPercentage < 80,
+                'text-green-600': weeklyPercentage < 60
+              }">
+                {{ weeklyPercentage.toFixed(1) }}%
+              </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div [ngClass]="getProgressColor(weeklyPercentage)"
+                   [style.width.%]="Math.min(weeklyPercentage, 100)"
+                   class="h-full transition-all duration-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Warning -->
+          <div *ngIf="weeklyPercentage >= 100" class="bg-red-50 border-l-4 border-red-500 p-3 rounded text-red-700 text-sm">
+            <i class="fas fa-exclamation-circle mr-2"></i>Đã vượt hạn mức chi tiêu tuần
+          </div>
+          <div *ngIf="weeklyPercentage >= 80 && weeklyPercentage < 100" class="bg-orange-50 border-l-4 border-orange-500 p-3 rounded text-orange-700 text-sm">
+            <i class="fas fa-warning mr-2"></i>Sắp đạt hạn mức chi tiêu tuần
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Spending Card -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-white text-lg font-semibold flex items-center">
+                <i class="fas fa-calendar-alt mr-2"></i>Chi Tiêu Tháng
+              </h3>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-full p-3">
+              <i class="fas fa-calendar-alt text-white text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-end justify-between mb-4">
+            <div>
+              <p class="text-gray-500 text-sm font-medium mb-1">Chi tiêu hiện tại</p>
+              <p class="text-3xl font-bold text-gray-800">{{ formatAmount(monthlySpending) }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-gray-500 text-sm mb-1">Hạn mức</p>
+              <p *ngIf="!isEditMode" class="text-lg font-semibold text-gray-700">
+                {{ monthlyLimit > 0 ? formatAmount(monthlyLimit) : 'Chưa đặt' }}
+              </p>
+              <input *ngIf="isEditMode" type="number" [(ngModel)]="tempMonthlyLimit"
+                     class="w-40 px-3 py-2 border-2 border-blue-300 rounded-lg focus:outline-none focus:border-blue-600"
+                     placeholder="Hạn mức tháng" min="0">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Tiến độ</span>
+              <span class="text-sm font-bold" [ngClass]="{
+                'text-red-600': monthlyPercentage >= 100,
+                'text-orange-600': monthlyPercentage >= 80 && monthlyPercentage < 100,
+                'text-yellow-600': monthlyPercentage >= 60 && monthlyPercentage < 80,
+                'text-green-600': monthlyPercentage < 60
+              }">
+                {{ monthlyPercentage.toFixed(1) }}%
+              </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div [ngClass]="getProgressColor(monthlyPercentage)"
+                   [style.width.%]="Math.min(monthlyPercentage, 100)"
+                   class="h-full transition-all duration-500">
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="monthlyPercentage >= 100" class="bg-red-50 border-l-4 border-red-500 p-3 rounded text-red-700 text-sm">
+            <i class="fas fa-exclamation-circle mr-2"></i>Đã vượt hạn mức chi tiêu tháng
+          </div>
+          <div *ngIf="monthlyPercentage >= 80 && monthlyPercentage < 100" class="bg-orange-50 border-l-4 border-orange-500 p-3 rounded text-orange-700 text-sm">
+            <i class="fas fa-warning mr-2"></i>Sắp đạt hạn mức chi tiêu tháng
+          </div>
+        </div>
+      </div>
+
+      <!-- Yearly Spending Card -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden">
+        <div class="bg-gradient-to-r from-green-500 to-green-600 p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-white text-lg font-semibold flex items-center">
+                <i class="fas fa-calendar mr-2"></i>Chi Tiêu Năm
+              </h3>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-full p-3">
+              <i class="fas fa-calendar text-white text-xl"></i>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-end justify-between mb-4">
+            <div>
+              <p class="text-gray-500 text-sm font-medium mb-1">Chi tiêu hiện tại</p>
+              <p class="text-3xl font-bold text-gray-800">{{ formatAmount(yearlySpending) }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-gray-500 text-sm mb-1">Hạn mức</p>
+              <p *ngIf="!isEditMode" class="text-lg font-semibold text-gray-700">
+                {{ yearlyLimit > 0 ? formatAmount(yearlyLimit) : 'Chưa đặt' }}
+              </p>
+              <input *ngIf="isEditMode" type="number" [(ngModel)]="tempYearlyLimit"
+                     class="w-40 px-3 py-2 border-2 border-green-300 rounded-lg focus:outline-none focus:border-green-600"
+                     placeholder="Hạn mức năm" min="0">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm text-gray-600">Tiến độ</span>
+              <span class="text-sm font-bold" [ngClass]="{
+                'text-red-600': yearlyPercentage >= 100,
+                'text-orange-600': yearlyPercentage >= 80 && yearlyPercentage < 100,
+                'text-yellow-600': yearlyPercentage >= 60 && yearlyPercentage < 80,
+                'text-green-600': yearlyPercentage < 60
+              }">
+                {{ yearlyPercentage.toFixed(1) }}%
+              </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div [ngClass]="getProgressColor(yearlyPercentage)"
+                   [style.width.%]="Math.min(yearlyPercentage, 100)"
+                   class="h-full transition-all duration-500">
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="yearlyPercentage >= 100" class="bg-red-50 border-l-4 border-red-500 p-3 rounded text-red-700 text-sm">
+            <i class="fas fa-exclamation-circle mr-2"></i>Đã vượt hạn mức chi tiêu năm
+          </div>
+          <div *ngIf="yearlyPercentage >= 80 && yearlyPercentage < 100" class="bg-orange-50 border-l-4 border-orange-500 p-3 rounded text-orange-700 text-sm">
+            <i class="fas fa-warning mr-2"></i>Sắp đạt hạn mức chi tiêu năm
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column - Summary & Info -->
+    <div class="lg:col-span-1">
+
+      <!-- Quick Stats Card -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-info-circle text-blue-600 mr-2"></i>Tóm Tắt
+        </h3>
+
+        <div class="space-y-4">
+          <div class="p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+            <p class="text-sm text-gray-600">Tuần</p>
+            <p class="text-xl font-bold text-purple-600">{{ (weeklyPercentage).toFixed(0) }}%</p>
+          </div>
+
+          <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+            <p class="text-sm text-gray-600">Tháng</p>
+            <p class="text-xl font-bold text-blue-600">{{ (monthlyPercentage).toFixed(0) }}%</p>
+          </div>
+
+          <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+            <p class="text-sm text-gray-600">Năm</p>
+            <p class="text-xl font-bold text-green-600">{{ (yearlyPercentage).toFixed(0) }}%</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Card -->
+      <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-yellow-500">
+        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+          <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>Mẹo
+        </h3>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <li class="flex items-start">
+            <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+            <span>Đặt hạn mức phù hợp với nguồn thu nhập</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+            <span>Theo dõi chi tiêu định kỳ</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+            <span>Lưu ý khi sắp vượt hạn mức</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-check text-green-500 mr-2 mt-0.5"></i>
+            <span>Hạn mức được lưu trên thiết bị này</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</div>

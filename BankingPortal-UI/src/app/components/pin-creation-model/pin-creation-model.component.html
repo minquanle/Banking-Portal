@@ -1,9 +1,33 @@
 <!-- pin-creation-model.component.html -->
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+  <div class="max-w-md w-full mx-4 rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-8 shadow-2xl border border-white/20">
+    <!-- Header Icon -->
+    <div class="flex items-center justify-center mb-6">
+      <div class="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+        <i class="fas fa-exclamation-triangle text-2xl text-white"></i>
+      </div>
+    </div>
 
-<div class="modal z-10 py-4 bg-white shadow-md">
-  <div class="modal-content">
-    <p class="text-xl font-bold">Create PIN</p>
-    <p class="text-lg">You have not created a PIN yet. Please create a PIN to continue.</p>
-    <button (click)="onClose()">Create Pin</button>
+    <!-- Title and Message -->
+    <h3 class="text-2xl font-bold text-center mb-2 text-white">Tạo PIN</h3>
+    <p class="text-center text-blue-100 mb-8">
+      Bạn chưa tạo PIN. Vui lòng tạo PIN để tiếp tục sử dụng các tính năng giao dịch.
+    </p>
+
+    <!-- Description -->
+    <div class="bg-white/10 border border-white/20 rounded-lg p-4 mb-8">
+      <p class="text-blue-200 text-sm">
+        <i class="fas fa-shield-alt mr-2 text-cyan-400"></i>
+        PIN là mã bảo mật 4 chữ số giúp bảo vệ tài khoản của bạn trong các giao dịch.
+      </p>
+    </div>
+
+    <!-- Button -->
+    <button
+      (click)="onClose()"
+      class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none transition-all duration-300 shadow-lg hover:shadow-blue-500/50"
+    >
+      <i class="fas fa-lock mr-2"></i>Tạo PIN ngay
+    </button>
   </div>
 </div>

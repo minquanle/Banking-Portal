@@ -1,64 +1,132 @@
 ::ng-deep .Withdrawal-color {
-
-
-  color: #e53e3e !important;
-  /* Red */
-  background-color: #fed7d7;
-  /* Light red background */
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+  box-shadow: 0 4px 6px rgba(229, 62, 62, 0.3);
 }
 
 ::ng-deep .Transfer-color {
-
-
-  color: #3b82f6 !important;
-  /* Blue */
-  background-color: #dbeffe;
-  /* Light blue background */
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
 }
 
 ::ng-deep .Credit-color {
-
-
-  color: #10b981 !important;
-  /* Green */
-  background-color: #d1fae5;
-  /* Light green background */
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
 }
 
 ::ng-deep .Deposit-color {
-
-
-  color: #6366f1 !important;
-  /* Indigo */
-  background-color: #e0e7ff;
-  /* Light indigo background */
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
 }
 
-/* For the custom select element */
+/* Custom select styling */
 .custom-select select {
   padding: 0.75rem 2rem;
-  /* Customize the padding as needed */
   font-size: 16px;
-  /* Increase the font size as needed */
 }
 
-/* For the options within the custom select */
 .custom-select option {
   padding: 0.5rem;
-  /* Customize the padding for options as needed */
   font-size: 16px;
-  /* Increase the font size for options as needed */
 }
 
-
+/* Host and container styling */
 :host {
-
   display: flex;
   flex: 1;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .coverparentspace {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Table hover effects */
+tbody tr {
+  transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Smooth transitions for badges */
+span[class*="-color"] {
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+span[class*="-color"]:hover {
+  transform: scale(1.05);
+}
+
+/* Backdrop blur effect */
+.backdrop-blur-xl {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bg-white\/10 {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Scroll bar styling */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
+  border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #9333ea 0%, #db2777 100%);
+}
+
+/* Icon animations */
+i {
+  transition: transform 0.3s ease;
+}
+
+button:hover i,
+.flex:hover i {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Table responsive */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.875rem;
+  }
+
+  th, td {
+    padding: 0.75rem 0.5rem;
+  }
 }

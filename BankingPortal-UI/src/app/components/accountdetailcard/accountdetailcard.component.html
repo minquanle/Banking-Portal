@@ -1,25 +1,85 @@
-<div class="p-4 bg-blue-500 rounded-lg shadow-lg text-white">
-  <h2 class="text-3xl font-semibold mb-6 text-yellow-400">{{ accountDetails?.balance | currency:'VND':'symbol' }}</h2>
-
-  <div class="grid grid-cols-2 gap-4">
-    <div class="mb-4">
-      <label for="accountNumber" class="block text-sm font-bold">Account Number:</label>
-      <span id="accountNumber" class="font-bold text-base">{{ accountDetails?.accountNumber }}</span>
+<div class="w-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+  <!-- Header với icon -->
+  <div class="bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white">
+    <div class="flex items-start justify-between mb-6">
+      <div class="flex-1">
+        <p class="text-blue-100 text-sm font-medium mb-3">Số dư hiện tại</p>
+        <p class="text-5xl font-bold text-white mb-2">{{ getDisplayBalance() }}</p>
+        <p class="text-xs text-blue-100">Tổng tiền trong tài khoản của bạn</p>
+      </div>
+      <button (click)="toggleBalanceVisibility()" 
+              class="bg-blue-500 hover:bg-blue-400 rounded-full p-4 transition duration-300 transform hover:scale-110 flex-shrink-0"
+              [title]="isBalanceVisible ? 'Ẩn số dư' : 'Hiện số dư'">
+        <i [class]="isBalanceVisible ? 'fas fa-eye text-white text-2xl' : 'fas fa-eye-slash text-white text-2xl'"></i>
+      </button>
     </div>
-    <div class="mb-4">
-      <label for="accountType" class="block text-sm font-bold">Account Type:</label>
-      <span id="accountType" class="font-bold text-base">{{ accountDetails?.accountType }}</span>
+
+    <!-- Divider -->
+    <div class="border-t border-blue-400 my-6"></div>
+
+    <!-- Account Number Info -->
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <p class="text-blue-100 text-xs font-medium mb-1">Số tài khoản</p>
+        <p class="text-2xl font-bold text-white">{{ accountDetails?.accountNumber }}</p>
+      </div>
+      <div>
+        <p class="text-blue-100 text-xs font-medium mb-1">Loại tài khoản</p>
+        <p class="text-2xl font-bold text-white">{{ accountDetails?.accountType }}</p>
+      </div>
     </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4">
-    <div class="mb-4">
-      <label for="branch" class="block text-sm font-bold">Branch:</label>
-      <span id="branch" class="font-bold text-base">{{ accountDetails?.branch }}</span>
+  <!-- Content -->
+  <div class="p-8">
+    <!-- Account Info Grid -->
+    <div class="grid grid-cols-2 gap-8 mb-8">
+      <!-- Left column -->
+      <div>
+        <div class="mb-6">
+          <label class="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2 block">
+            <i class="fas fa-code text-blue-600 mr-2"></i>IFSC Code
+          </label>
+          <p class="text-xl font-bold text-gray-900 font-mono">{{ accountDetails?.ifscCode }}</p>
+          <p class="text-xs text-gray-400 mt-1">Mã ngân hàng quốc tế</p>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="mb-6">
+          <label class="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-2 block">
+            <i class="fas fa-location-dot text-blue-600 mr-2"></i>Chi nhánh
+          </label>
+          <p class="text-xl font-bold text-gray-900">{{ accountDetails?.branch }}</p>
+          <p class="text-xs text-gray-400 mt-1">Chi nhánh ngân hàng</p>
+        </div>
+      </div>
     </div>
-    <div class="mb-4">
-      <label for="ifscCode" class="block text-sm font-bold">IFSC Code:</label>
-      <span id="ifscCode" class="font-bold text-base">{{ accountDetails?.ifscCode }}</span>
+
+    <!-- Divider -->
+    <div class="border-t border-gray-200 my-6"></div>
+
+    <!-- Quick actions / Status -->
+    <div class="flex gap-4">
+      <div class="flex-1 bg-green-50 rounded-lg p-4 border border-green-200">
+        <p class="text-green-700 text-sm font-semibold flex items-center">
+          <i class="fas fa-check-circle mr-2"></i>Trạng thái
+        </p>
+        <p class="text-green-900 font-bold mt-1">Hoạt động</p>
+      </div>
+      <div class="flex-1 bg-blue-50 rounded-lg p-4 border border-blue-200">
+        <p class="text-blue-700 text-sm font-semibold flex items-center">
+          <i class="fas fa-shield mr-2"></i>Bảo mật
+        </p>
+        <p class="text-blue-900 font-bold mt-1">Bảo vệ 2FA</p>
+      </div>
+      <div class="flex-1 bg-purple-50 rounded-lg p-4 border border-purple-200">
+        <p class="text-purple-700 text-sm font-semibold flex items-center">
+          <i class="fas fa-star mr-2"></i>Loại thành viên
+        </p>
+        <p class="text-purple-900 font-bold mt-1">Premium</p>
+      </div>
     </div>
   </div>
 </div>

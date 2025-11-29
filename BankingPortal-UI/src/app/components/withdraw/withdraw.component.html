@@ -1,25 +1,61 @@
-<div class="flex justify-center items-center coverparentspace">
+<div class="flex justify-center items-center coverparentspace bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 min-h-screen">
+  <div class="max-w-md w-full rounded-2xl bg-white/10 backdrop-blur-xl p-8 leading-5 text-white shadow-2xl border border-white/20">
+    <!-- Header Icon -->
+    <div class="flex items-center justify-center mb-8">
+      <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+        <i class="fas fa-money-bill-wave text-xl text-white"></i>
+      </div>
+    </div>
 
-  <div
-    class="max-w-md w-full rounded-lg bg-white p-6 leading-5 text-slate-700 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
-    <h2 class="text-3xl font-semibold mb-6 text-center">Withdraw</h2>
-    <form [formGroup]="withdrawForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <!-- Title -->
+    <h2 class="text-3xl font-bold mb-2 text-center bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Rút tiền</h2>
+    <p class="text-center text-blue-200 text-sm mb-8">Rút tiền từ tài khoản của bạn</p>
+
+    <!-- Form -->
+    <form [formGroup]="withdrawForm" (ngSubmit)="onSubmit()" class="space-y-5">
+      <!-- Amount Input -->
       <div>
-        <label for="amount" class="block text-sm font-bold mb-2">Amount:</label>
-        <input autocomplete="off" formControlName="amount" type="number" id="amount"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-          placeholder="Enter the amount" />
+        <label for="amount" class="block text-sm font-semibold mb-3 text-blue-100">Số tiền (VND):</label>
+        <input
+          autocomplete="off"
+          formControlName="amount"
+          type="number"
+          id="amount"
+          class="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-white placeholder-blue-200/50 transition-all"
+          placeholder="Nhập số tiền cần rút"
+        />
+        <div *ngIf="withdrawForm.get('amount')?.invalid && withdrawForm.get('amount')?.touched" class="text-red-300 text-sm mt-2 flex items-center">
+          <i class="fas fa-exclamation-circle mr-2"></i>Số tiền không hợp lệ
+        </div>
       </div>
+
+      <!-- PIN Input -->
       <div>
-        <label for="pin" class="block text-sm font-bold mb-2">PIN:</label>
-        <input autocomplete="off" formControlName="pin" type="password" id="pin"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-          placeholder="Enter your account PIN" />
+        <label for="pin" class="block text-sm font-semibold mb-3 text-blue-100">PIN:</label>
+        <input
+          autocomplete="off"
+          formControlName="pin"
+          type="password"
+          id="pin"
+          class="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-white placeholder-blue-200/50 transition-all"
+          placeholder="Nhập PIN của bạn"
+        />
+        <div *ngIf="withdrawForm.get('pin')?.invalid && withdrawForm.get('pin')?.touched" class="text-red-300 text-sm mt-2 flex items-center">
+          <i class="fas fa-exclamation-circle mr-2"></i>PIN phải có 4 chữ số
+        </div>
       </div>
-      <div class="flex justify-center">
-        <button type="submit" [disabled]="withdrawForm.invalid"
-          class="w-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">Withdraw</button>
-      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="withdrawForm.invalid"
+        class="w-full mt-6 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-green-500/50"
+      >
+        <i class="fas fa-arrow-down mr-2"></i>Rút tiền
+      </button>
     </form>
+
+    <!-- Help Text -->
+    <p class="text-center text-blue-300 text-xs mt-6">💡 Giao dịch được bảo vệ bằng PIN của bạn</p>
   </div>
 </div>

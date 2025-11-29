@@ -45,6 +45,7 @@ import { LoadermodelService } from './services/loadermodel.service';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { SpendingLimitComponent } from './components/spending-limit/spending-limit.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { NotificationComponent } from './components/notification/notification.co
     MonthlyTransactionChartComponent,
     DonwloadtransactionsComponent,
     ResetPasswordComponent,
-    NotificationComponent
+    NotificationComponent,
+    SpendingLimitComponent
   ],
   imports: [
     RouterModule,

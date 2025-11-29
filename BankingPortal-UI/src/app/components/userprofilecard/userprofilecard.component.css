@@ -1,0 +1,98 @@
+/* Premium banking card styles */
+
+:host {
+  display: block;
+}
+
+/* Animated gradient background */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Hover effects */
+:host-context(.rounded-2xl) {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+:host-context(.rounded-2xl):hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Text animations */
+h2 {
+  animation: slideInDown 0.6s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Balance highlight animation */
+p:has(.currency) {
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grid items animation */
+.grid > div {
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.grid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.grid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.grid > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Glass effect for stat cards */
+.bg-opacity-10 {
+  transition: all 0.3s ease;
+}
+
+.bg-opacity-10:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}

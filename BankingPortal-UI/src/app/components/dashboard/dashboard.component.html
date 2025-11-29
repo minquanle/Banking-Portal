@@ -1,23 +1,84 @@
 <div class="coverparentspace">
-  <!-- User Profile and Account Cards -->
-  <div class="cards-wrapper w-full flex gap-2 mb-4">
-    <div class="w-full">
-      <app-userprofilecard></app-userprofilecard>
-    </div>
-    <div class="w-full">
-      <app-accountdetailcard></app-accountdetailcard>
-    </div>
+  <!-- User Profile Card - Allow it to load independently -->
+  <div class="w-full mb-6" style="min-height: 200px;">
+    <app-userprofilecard></app-userprofilecard>
   </div>
 
-  <!-- Transaction History Section -->
-  <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-2xl font-bold text-gray-800">
-        <i class="fas fa-history mr-2 text-blue-600"></i>
-        Lịch sử giao dịch
-      </h2>
+  <!-- Quick Actions Title -->
+  <h2 class="text-white text-lg font-bold mb-4 flex items-center animate-fadeIn">
+    <i class="fas fa-bolt text-yellow-400 mr-2"></i>Giao dịch nhanh
+  </h2>
+
+  <!-- Transaction Cards Grid - Enhanced with immediate render -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeInUp">
+    <!-- Deposit Card -->
+    <div (click)="navigateTo('/account/deposit')"
+         class="group relative bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
+      <!-- Background Glow -->
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-400/0 to-cyan-400/0 group-hover:from-blue-400/30 group-hover:to-cyan-400/30 transition-all rounded-2xl"></div>
+
+      <div class="relative z-10">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
+            <i class="fas fa-arrow-up text-2xl"></i>
+          </div>
+          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-1">Gửi tiền</h3>
+        <p class="text-blue-100 text-sm">Gửi tiền vào tài khoản</p>
+        <div class="mt-4 pt-4 border-t border-white/30">
+          <p class="text-xs text-blue-50 flex items-center">
+            <i class="fas fa-info-circle mr-2"></i>Nhanh chóng & an toàn
+          </p>
+        </div>
+      </div>
     </div>
-    <app-transaction-history></app-transaction-history>
+
+    <!-- Withdraw Card -->
+    <div (click)="navigateTo('/account/withdraw')"
+         class="group relative bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
+      <!-- Background Glow -->
+      <div class="absolute inset-0 bg-gradient-to-br from-green-400/0 to-emerald-400/0 group-hover:from-green-400/30 group-hover:to-emerald-400/30 transition-all rounded-2xl"></div>
+
+      <div class="relative z-10">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
+            <i class="fas fa-arrow-down text-2xl"></i>
+          </div>
+          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-1">Rút tiền</h3>
+        <p class="text-green-100 text-sm">Rút tiền từ tài khoản</p>
+        <div class="mt-4 pt-4 border-t border-white/30">
+          <p class="text-xs text-green-50 flex items-center">
+            <i class="fas fa-info-circle mr-2"></i>Linh hoạt & thuận tiện
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fund Transfer Card -->
+    <div (click)="navigateTo('/account/fund-transfer')"
+         class="group relative bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
+      <!-- Background Glow -->
+      <div class="absolute inset-0 bg-gradient-to-br from-purple-400/0 to-pink-400/0 group-hover:from-purple-400/30 group-hover:to-pink-400/30 transition-all rounded-2xl"></div>
+
+      <div class="relative z-10">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
+            <i class="fas fa-exchange-alt text-2xl"></i>
+          </div>
+          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-1">Chuyển tiền</h3>
+        <p class="text-purple-100 text-sm">Chuyển tiền đến tài khoản khác</p>
+        <div class="mt-4 pt-4 border-t border-white/30">
+          <p class="text-xs text-purple-50 flex items-center">
+            <i class="fas fa-info-circle mr-2"></i>Đầu mối tin cậy
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

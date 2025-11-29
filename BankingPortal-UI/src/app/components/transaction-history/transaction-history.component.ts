@@ -88,9 +88,25 @@ export class TransactionHistoryComponent implements OnInit {
     return new Date();
   }
 
-  getTransactionStatus(transaction: TransactionComponent): string {
-    // Per user request: show all transactions as "Vừa xong"
-    return 'Vừa xong';
+  getTransactionStatus(transaction: any): string {
+    // Return proper transaction type based on transactionType field
+    const type = transaction.transactionType;
+
+    switch (type) {
+      case 'CASH_DEPOSIT':
+        return 'Nạp tiền';
+      case 'CASH_WITHDRAWAL':
+        return 'Rút tiền';
+      case 'CASH_TRANSFER':
+        // Check if user is sender or receiver
+        if (transaction.sourceAccountNumber === this.userAccountNumber) {
+          return 'Chuyển tiền';
+        } else {
+          return 'Nhận tiền';
+        }
+      default:
+        return 'Giao dịch';
+    }
   }
 
   filterTransactions(): void {

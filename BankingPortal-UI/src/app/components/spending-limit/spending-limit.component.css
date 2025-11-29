@@ -1,0 +1,113 @@
+/* spending-limit.component.css */
+
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.coverparentspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Smooth transitions */
+.transition {
+  transition: all 0.3s ease;
+}
+
+/* Card hover effects */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Progress bar animation */
+@keyframes slideIn {
+  from {
+    width: 0 !important;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.3s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Input focus effects */
+input:focus {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Gradient animations */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Cards with gradient */
+.bg-gradient-to-br {
+  background-size: 200% 200%;
+}
+
+/* Smooth color transitions for status */
+.text-red-600, .text-orange-600, .text-yellow-600, .text-green-600 {
+  transition: color 0.3s ease;
+}
+
+/* Border animation */
+@keyframes borderPulse {
+  0%, 100% {
+    border-color: currentColor;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Info cards */
+.bg-purple-50, .bg-blue-50, .bg-green-50 {
+  transition: all 0.3s ease;
+}
+
+.bg-purple-50:hover, .bg-blue-50:hover, .bg-green-50:hover {
+  transform: translateX(2px);
+}
+
+/* Icon animations */
+i {
+  transition: transform 0.3s ease;
+}
+
+button:hover i {
+  transform: rotate(5deg);
+}
