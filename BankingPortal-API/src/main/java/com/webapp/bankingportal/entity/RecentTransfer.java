@@ -7,7 +7,10 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "recent_transfers")
+@Table(name = "recent_transfers",
+    indexes = { @Index(name = "idx_recent_transfers_account", columnList = "account_id"),
+            @Index(name = "idx_recent_transfers_date", columnList = "last_transfer_date DESC")}
+)
 public class RecentTransfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

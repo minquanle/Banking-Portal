@@ -7,7 +7,12 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "saved_beneficiaries")
+@Table(
+        name = "saved_beneficiaries",
+        indexes = {
+            @Index(name = "idx_saved_beneficiaries_account", columnList = "account_id"),
+            @Index(name = "idx_saved_beneficiaries_beneficiary", columnList = "beneficiary_account_id")
+})
 public class SavedBeneficiary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
