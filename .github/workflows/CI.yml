@@ -71,6 +71,14 @@ jobs:
       - name: Build backend
         run: mvn clean package -DskipTests
 
+      - name: DOCKER HUB (build and push)
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker build -t $DOCKER_USERNAME/bank-backend:latest .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push $DOCKER_USERNAME/bank-backend:latest
 
   frontend:
     runs-on: ubuntu-latest
@@ -97,5 +105,13 @@ jobs:
 
       - name: Build Angular
         run: npm run build -- --configuration=production
-
+        
+      - name: DOCKER HUB (build and push)
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker build -t $DOCKER_USERNAME/bank-frontend:latest .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push $DOCKER_USERNAME/bank-frontend:latest
 
