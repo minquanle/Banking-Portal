@@ -20,7 +20,7 @@ RUN npm run build -- --configuration=production
 FROM nginx:alpine
 
 # Copy build output to Nginx html folder
-COPY --from=build /app/dist/<angular-project-name> /usr/share/nginx/html
+COPY --from=build /app/dist/banking-portal /usr/share/nginx/html
 
 # Copy custom Nginx config if cần thiết
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
