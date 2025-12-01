@@ -1,82 +1,108 @@
-<div class="coverparentspace">
-  <!-- User Profile Card - Allow it to load independently -->
+<div class="coverparentspace p-4">
   <div class="w-full mb-6" style="min-height: 200px;">
     <app-userprofilecard></app-userprofilecard>
   </div>
 
-  <!-- Quick Actions Title -->
-  <h2 class="text-white text-lg font-bold mb-4 flex items-center animate-fadeIn">
-    <i class="fas fa-bolt text-yellow-400 mr-2"></i>Giao dịch nhanh
+  <h2 class="text-gray-800 text-lg font-bold mb-4 flex items-center animate-fadeIn">
+    <i class="fas fa-bolt text-yellow-500 mr-2"></i>Giao dịch nhanh
   </h2>
 
-  <!-- Transaction Cards Grid - Enhanced with immediate render -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fadeInUp">
     <!-- Deposit Card -->
-    <div (click)="navigateTo('/account/deposit')"
-         class="group relative bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
-      <!-- Background Glow -->
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-400/0 to-cyan-400/0 group-hover:from-blue-400/30 group-hover:to-cyan-400/30 transition-all rounded-2xl"></div>
-
+    <div (click)="navigateTo('/account/deposit')" class="transaction-card group relative bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 rounded-2xl shadow-lg p-6 text-white cursor-pointer hover:shadow-2xl hover:shadow-blue-500/30 overflow-hidden">
+      <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all rounded-2xl"></div>
       <div class="relative z-10">
         <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
             <i class="fas fa-arrow-up text-2xl"></i>
           </div>
-          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+          <i class="fas fa-chevron-right text-white/60 group-hover:text-white transition-all transform group-hover:translate-x-1"></i>
         </div>
         <h3 class="text-xl font-bold mb-1">Gửi tiền</h3>
-        <p class="text-blue-100 text-sm">Gửi tiền vào tài khoản</p>
-        <div class="mt-4 pt-4 border-t border-white/30">
-          <p class="text-xs text-blue-50 flex items-center">
-            <i class="fas fa-info-circle mr-2"></i>Nhanh chóng & an toàn
-          </p>
-        </div>
+        <p class="text-blue-100 text-sm opacity-90">Nạp tiền vào tài khoản</p>
       </div>
     </div>
 
     <!-- Withdraw Card -->
-    <div (click)="navigateTo('/account/withdraw')"
-         class="group relative bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
-      <!-- Background Glow -->
-      <div class="absolute inset-0 bg-gradient-to-br from-green-400/0 to-emerald-400/0 group-hover:from-green-400/30 group-hover:to-emerald-400/30 transition-all rounded-2xl"></div>
-
+    <div (click)="navigateTo('/account/withdraw')" class="transaction-card group relative bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-2xl shadow-lg p-6 text-white cursor-pointer hover:shadow-2xl hover:shadow-emerald-500/30 overflow-hidden">
+      <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all rounded-2xl"></div>
       <div class="relative z-10">
         <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
             <i class="fas fa-arrow-down text-2xl"></i>
           </div>
-          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+          <i class="fas fa-chevron-right text-white/60 group-hover:text-white transition-all transform group-hover:translate-x-1"></i>
         </div>
         <h3 class="text-xl font-bold mb-1">Rút tiền</h3>
-        <p class="text-green-100 text-sm">Rút tiền từ tài khoản</p>
-        <div class="mt-4 pt-4 border-t border-white/30">
-          <p class="text-xs text-green-50 flex items-center">
-            <i class="fas fa-info-circle mr-2"></i>Linh hoạt & thuận tiện
+        <p class="text-emerald-100 text-sm opacity-90">Rút tiền về ngân hàng</p>
+      </div>
+    </div>
+
+    <!-- Fund Transfer Card -->
+    <div (click)="navigateTo('/account/fund-transfer')" class="transaction-card group relative bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 rounded-2xl shadow-lg p-6 text-white cursor-pointer hover:shadow-2xl hover:shadow-purple-500/30 overflow-hidden">
+      <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all rounded-2xl"></div>
+      <div class="relative z-10">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+            <i class="fas fa-exchange-alt text-2xl"></i>
+          </div>
+          <i class="fas fa-chevron-right text-white/60 group-hover:text-white transition-all transform group-hover:translate-x-1"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-1">Chuyển tiền</h3>
+        <p class="text-purple-100 text-sm opacity-90">Chuyển khoản nhanh 24/7</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 bg-white rounded-3xl p-6 shadow-xl border border-gray-100">
+
+    <div class="mb-8">
+      <h3 class="text-gray-800 text-base font-bold mb-4">Gần đây</h3>
+      <div class="flex gap-6 overflow-x-auto p-4 -mx-4 scrollbar-hide">
+        <div *ngFor="let transfer of recentTransfers.slice(0, 4)" (click)="navigateToTransfer(transfer.recipientAccountNumber)" class="flex flex-col items-center cursor-pointer group min-w-[70px]">
+          <div class="w-14 h-14 rounded-full p-[2px] bg-gradient-to-tr from-blue-400 to-purple-500 mb-2 group-hover:scale-110 transition-transform shadow-md">
+            <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+              <i class="fas fa-user text-gray-600 text-lg"></i>
+            </div>
+          </div>
+          <p class="text-gray-600 text-xs text-center truncate w-full font-semibold group-hover:text-blue-600 transition-colors">
+            {{ (transfer.recipientName || 'Người nhận').toUpperCase().split(' ').slice(-2).join(' ') }}
           </p>
         </div>
       </div>
     </div>
 
-    <!-- Fund Transfer Card -->
-    <div (click)="navigateTo('/account/fund-transfer')"
-         class="group relative bg-gradient-to-br from-purple-500 via-purple-600 to-pink-600 rounded-2xl shadow-xl p-6 text-white cursor-pointer hover:shadow-2xl transition-all hover:scale-105 overflow-hidden">
-      <!-- Background Glow -->
-      <div class="absolute inset-0 bg-gradient-to-br from-purple-400/0 to-pink-400/0 group-hover:from-purple-400/30 group-hover:to-pink-400/30 transition-all rounded-2xl"></div>
+    <div class="mb-4 border-b border-gray-100 pb-2">
+      <h3 class="text-gray-800 text-base font-bold text-blue-600 border-b-2 border-blue-500 inline-block pb-2">
+        Danh sách đã lưu
+      </h3>
+    </div>
 
-      <div class="relative z-10">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-all">
-            <i class="fas fa-exchange-alt text-2xl"></i>
+    <div class="space-y-3">
+      <div *ngIf="savedBeneficiaries.length > 0">
+        <div *ngFor="let beneficiary of savedBeneficiaries" (click)="navigateToTransfer(beneficiary.beneficiaryAccountNumber)" class="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 cursor-pointer hover:border-blue-200 hover:shadow-md hover:bg-blue-50/30 transition-all group">
+          <div class="flex items-center gap-4 flex-1">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+              <i class="fas fa-user text-lg"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-gray-800 font-bold text-sm truncate">{{ beneficiary.nickname || beneficiary.beneficiaryName || 'Người nhận' }}</p>
+              <p class="text-gray-500 text-xs truncate font-medium">{{ beneficiary.beneficiaryAccountNumber }}</p>
+              <p class="text-gray-400 text-[10px] mt-0.5">Ngân hàng NIT</p>
+            </div>
           </div>
-          <i class="fas fa-chevron-right text-white/50 group-hover:text-white/80 transition-all transform group-hover:translate-x-1"></i>
+          <div class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 group-hover:bg-white text-gray-300 group-hover:text-blue-500 transition-colors">
+            <i class="fas fa-chevron-right text-sm"></i>
+          </div>
         </div>
-        <h3 class="text-xl font-bold mb-1">Chuyển tiền</h3>
-        <p class="text-purple-100 text-sm">Chuyển tiền đến tài khoản khác</p>
-        <div class="mt-4 pt-4 border-t border-white/30">
-          <p class="text-xs text-purple-50 flex items-center">
-            <i class="fas fa-info-circle mr-2"></i>Đầu mối tin cậy
-          </p>
+      </div>
+
+      <div *ngIf="savedBeneficiaries.length === 0" class="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-inbox text-gray-400 text-3xl"></i>
         </div>
+        <p class="text-gray-600 text-sm font-semibold">Chưa có người nhận được lưu</p>
+        <p class="text-gray-400 text-xs mt-1">Chuyển tiền và chọn "Lưu người nhận" để thêm vào đây</p>
       </div>
     </div>
   </div>

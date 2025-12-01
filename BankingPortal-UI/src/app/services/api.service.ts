@@ -91,4 +91,26 @@ export class ApiService {
   deleteNotification(notificationId: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/notifications/${notificationId}`);
   }
+
+  // Beneficiary API Endpoints
+  saveBeneficiary(accountNumber: string, beneficiaryAccountNumber: string, nickname: string): Observable<any> {
+    const body = {
+      accountNumber: accountNumber,
+      beneficiaryAccountNumber: beneficiaryAccountNumber,
+      nickname: nickname
+    };
+    return this.http.post<any>(`${this.baseUrl}/account/beneficiaries/save`, body);
+  }
+
+  getSavedBeneficiaries(accountNumber: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/account/beneficiaries?accountNumber=${accountNumber}`);
+  }
+
+  getRecentTransfers(accountNumber: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/account/recent-transfers?accountNumber=${accountNumber}`);
+  }
+
+  removeBeneficiary(accountNumber: string, beneficiaryAccountNumber: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/account/beneficiaries/remove?accountNumber=${accountNumber}&beneficiaryAccountNumber=${beneficiaryAccountNumber}`);
+  }
 }

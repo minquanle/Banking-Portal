@@ -1,5 +1,6 @@
 package com.webapp.bankingportal.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -9,11 +10,16 @@ import com.webapp.bankingportal.dto.AmountRequest;
 import com.webapp.bankingportal.dto.FundTransferRequest;
 import com.webapp.bankingportal.dto.PinRequest;
 import com.webapp.bankingportal.dto.PinUpdateRequest;
+import com.webapp.bankingportal.dto.SavedBeneficiaryDTO;
+import com.webapp.bankingportal.dto.RecentTransferDTO;
 import com.webapp.bankingportal.service.AccountService;
 import com.webapp.bankingportal.service.TransactionService;
 import com.webapp.bankingportal.util.ApiMessages;
 import com.webapp.bankingportal.util.JsonUtil;
 import com.webapp.bankingportal.util.LoggedinUser;
+import com.webapp.bankingportal.dto.SaveBeneficiaryRequest;
+import com.webapp.bankingportal.entity.RecentTransfer;
+import com.webapp.bankingportal.entity.SavedBeneficiary;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -95,5 +101,26 @@ public class AccountController {
         transactionService.sendBankStatementByEmail(accountNumber);
         return ResponseEntity.ok("{\"message\": \"Bank statement sent to your email.\"}");
     }
+
+    @PostMapping("/beneficiaries/save")
+    public ResponseEntity<?> saveBeneficiary(@RequestBody SaveBeneficiaryRequest request) {
+        accountService.saveBeneficiary(
+                request.getAccountNumber(),
+                request.getBeneficiaryAccountNumber(),
+                request.getNickname()
+        );
+        return ResponseEntity.ok(Map.of("message", "Đã lưu người nhận thành công", "success", true));
+    }
+
+    @GetMapping("/beneficiaries")
+    public ResponseEntity<List<SavedBeneficiaryDTO>> getSavedBeneficiaries(@RequestParam String accountNumber) {
+        return ResponseEntity.ok(accountService.getSavedBeneficiaries(accountNumber));
+    }
+
+    @GetMapping("/recent-transfers")
+    public ResponseEntity<List<RecentTransferDTO>> getRecentTransfers(@RequestParam String accountNumber) {
+        return ResponseEntity.ok(accountService.getRecentTransfers(accountNumber));
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.webapp.bankingportal.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,10 @@ import com.webapp.bankingportal.entity.NotificationType;
 import com.webapp.bankingportal.entity.Transaction;
 import com.webapp.bankingportal.entity.TransactionType;
 import com.webapp.bankingportal.entity.User;
+import com.webapp.bankingportal.entity.SavedBeneficiary;
+import com.webapp.bankingportal.entity.RecentTransfer;
+import com.webapp.bankingportal.dto.SavedBeneficiaryDTO;
+import com.webapp.bankingportal.dto.RecentTransferDTO;
 import com.webapp.bankingportal.exception.FundTransferException;
 import com.webapp.bankingportal.exception.InsufficientBalanceException;
 import com.webapp.bankingportal.exception.InvalidAmountException;
@@ -21,6 +26,8 @@ import com.webapp.bankingportal.exception.NotFoundException;
 import com.webapp.bankingportal.exception.UnauthorizedException;
 import com.webapp.bankingportal.repository.AccountRepository;
 import com.webapp.bankingportal.repository.TransactionRepository;
+import com.webapp.bankingportal.repository.SavedBeneficiaryRepository;
+import com.webapp.bankingportal.repository.RecentTransferRepository;
 import com.webapp.bankingportal.util.ApiMessages;
 
 import lombok.RequiredArgsConstructor;
@@ -257,6 +264,18 @@ public class AccountServiceImpl implements AccountService {
         transaction.setTargetAccount(targetAccount);
         transactionRepository.save(transaction);
 
+        // Update recent transfers
+        RecentTransfer recent = recentTransferRepository.findByAccount_AccountNumberAndRecipientAccount_AccountNumber(
+                sourceAccountNumber, targetAccountNumber).orElse(null);
+
+        if (recent == null) {
+            recent = new RecentTransfer();
+            recent.setAccount(sourceAccount);
+            recent.setRecipientAccount(targetAccount);
+        }
+        recent.setLastTransferDate(new Date());
+        recentTransferRepository.save(recent);
+
         // Create notification for sender
         notificationService.createNotification(
             sourceAccount,
@@ -279,5 +298,95 @@ public class AccountServiceImpl implements AccountService {
             sourceAccountNumber
         );
     }
+
+    @Autowired
+    private SavedBeneficiaryRepository savedBeneficiaryRepository;
+    @Autowired
+    private RecentTransferRepository recentTransferRepository;
+
+    @Override
+    public void saveBeneficiary(String accountNumber, String beneficiaryAccountNumber, String nickname) {
+        log.info("Saving beneficiary for account: {} - beneficiary: {}", accountNumber, beneficiaryAccountNumber);
+
+        if (accountNumber.equals(beneficiaryAccountNumber)) {
+            throw new IllegalArgumentException("Không thể lưu tài khoản của chính mình");
+        }
+
+        val account = accountRepository.findByAccountNumber(accountNumber);
+        val beneficiary = accountRepository.findByAccountNumber(beneficiaryAccountNumber);
+
+        if (account == null) {
+            throw new NotFoundException("Không tìm thấy tài khoản của bạn");
+        }
+
+        if (beneficiary == null) {
+            throw new NotFoundException("Không tìm thấy tài khoản người nhận");
+        }
+
+        // Check if already exists
+        val existingSavedBeneficiary = savedBeneficiaryRepository
+                .findByAccount_AccountNumberAndBeneficiaryAccount_AccountNumber(accountNumber, beneficiaryAccountNumber);
+
+        if (existingSavedBeneficiary.isPresent()) {
+            // Update existing
+            val saved = existingSavedBeneficiary.get();
+            if (nickname != null && !nickname.isEmpty()) {
+                saved.setNickname(nickname);
+            }
+            saved.setSavedAt(new Date());
+            savedBeneficiaryRepository.save(saved);
+            log.info("Beneficiary updated successfully");
+        } else {
+            // Check limit before adding new
+            long count = savedBeneficiaryRepository.countByAccount_AccountNumber(accountNumber);
+            if (count >= 5) {
+                throw new IllegalStateException("Đã đạt giới hạn 5 người nhận được lưu");
+            }
+
+            // Add new
+            val saved = new SavedBeneficiary();
+            saved.setAccount(account);
+            saved.setBeneficiaryAccount(beneficiary);
+            saved.setNickname(nickname != null ? nickname : beneficiary.getUser().getName());
+            saved.setSavedAt(new Date());
+            savedBeneficiaryRepository.save(saved);
+            log.info("Beneficiary saved successfully");
+        }
+    }
+
+    @Override
+    public List<SavedBeneficiaryDTO> getSavedBeneficiaries(String accountNumber) {
+        log.info("Getting saved beneficiaries for account: {}", accountNumber);
+        List<SavedBeneficiary> saved = savedBeneficiaryRepository.findByAccount_AccountNumberOrderBySavedAtDesc(accountNumber);
+        log.info("Found {} saved beneficiaries", saved.size());
+        
+        return saved.stream().map(s -> new SavedBeneficiaryDTO(
+            s.getId(),
+            s.getBeneficiaryAccount().getAccountNumber(),
+            s.getBeneficiaryAccount().getUser().getName(),
+            s.getNickname(),
+            s.getSavedAt()
+        )).toList();
+    }
+
+    @Override
+    public void removeBeneficiary(String accountNumber, String beneficiaryAccountNumber) {
+        // Implement delete logic
+    }
+
+    @Override
+    public List<RecentTransferDTO> getRecentTransfers(String accountNumber) {
+        log.info("Getting recent transfers for account: {}", accountNumber);
+        List<RecentTransfer> transfers = recentTransferRepository.findTop5ByAccount_AccountNumberOrderByLastTransferDateDesc(accountNumber);
+        log.info("Found {} recent transfers", transfers.size());
+        
+        return transfers.stream().map(t -> new RecentTransferDTO(
+            t.getId(),
+            t.getRecipientAccount().getAccountNumber(),
+            t.getRecipientAccount().getUser().getName(),
+            t.getLastTransferDate()
+        )).toList();
+    }
+
 
 }
