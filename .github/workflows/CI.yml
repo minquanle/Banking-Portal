@@ -71,5 +71,31 @@ jobs:
       - name: Build backend
         run: mvn clean package -DskipTests
 
-      - name: Run TESTS
-        run: mvn test
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BankingPortal-UI   # ⬅ sửa nếu cần
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (optional)
+        run: npm run lint --if-present
+
+      - name: Run tests
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      - name: Build Angular
+        run: npm run build -- --configuration=production
+
+
