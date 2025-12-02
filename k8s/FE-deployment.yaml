@@ -1,0 +1,38 @@
+# --- DEPLOYMENT (GIỮ NGUYÊN) ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: banking-frontend
+  template:
+    metadata:
+      labels:
+        app: banking-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: acesme/bank-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+
+---
+
+# --- SERVICE (SỬA PHẦN NÀY) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-frontend-svc
+spec:
+  # 1. Đổi type thành LoadBalancer
+  type: ClusterIP 
+  selector:
+    app: banking-frontend
+  ports:
+    - port: 80         # Người dùng vào bằng cổng 80 (http://...)
+      targetPort: 80   # Chuyển vào container cổng 80
+      # 2. XÓA dòng nodePort đi (K8s/Cloud sẽ tự lo việc này)

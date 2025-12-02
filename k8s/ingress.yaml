@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: banking-ingress
+  annotations:
+    # Dòng này cực quan trọng với Nginx Controller
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx # Bắt buộc
+  rules:
+  - http:
+      paths:
+      # Đường dẫn cho Backend API
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: banking-backend-svc
+            port:
+              number: 8180
+      # Đường dẫn cho Frontend (Mọi cái còn lại)
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: banking-frontend-svc
+            port:
+              number: 80
