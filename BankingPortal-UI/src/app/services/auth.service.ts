@@ -45,6 +45,7 @@ export class AuthService {
       identifier: identifier,
       password: password,
     };
+    console.log('Login request body:', body, ' url', `${this.baseUrl}`);
     return this.http.post<any>(`${this.baseUrl}/users/login`, body);
   }
 
