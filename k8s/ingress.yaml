@@ -2,9 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: banking-ingress
-  annotations:
-    # Dòng này cực quan trọng với Nginx Controller
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  # annotations:
+  #   # Dòng này cực quan trọng với Nginx Controller
+  #   # nginx.ingress.kubernetes.io/rewrite-target: /
 
 spec:
   ingressClassName: nginx # Bắt buộc
