@@ -5,6 +5,8 @@ metadata:
   annotations:
     # Dòng này cực quan trọng với Nginx Controller
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      try_files $uri /index.html;
 spec:
   ingressClassName: nginx # Bắt buộc
   rules:
