@@ -48,6 +48,8 @@ spec:
           value: "pzncxrpzllnowaih"
         
         # --- CẤU HÌNH KHÁC ---
+        - name: GEO_API_URL  # <--- BẠN ĐANG THIẾU DÒNG NÀY
+          value: "https://api.findip.net/"
         - name: GEO_API_KEY
           value: "b9b94488c35a4e5d8295ec5d6d86806f"
         # Các config mặc định như ddl-auto, driver... thường để trong code build sẵn cũng được
