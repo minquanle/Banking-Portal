@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://banking-backend-svc:8180/api',
+    apiUrl: '/api',
     tokenName :  "authToken",
-    origin:'http://localhost:4200' 
+    origin: window.location.origin 
   };

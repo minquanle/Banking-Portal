@@ -102,7 +102,12 @@ jobs:
 
       # - name: Run tests
       #   run: npm test -- --watch=false --browsers=ChromeHeadless
+      - name: Debug File Structure
+        run: |
+          echo "Liệt kê toàn bộ file trong thư mục src:"
+          find src -name "environment*"
 
+        
       - name: Build Angular
         run: npm run build -- --configuration=production
         

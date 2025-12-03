@@ -3,4 +3,4 @@ export const environment = {
   apiUrl: '/api',
   tokenName :  "authToken",
   origin: window.location.origin 
-};
+  };
