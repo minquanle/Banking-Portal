@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: banking-ingress
   annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     # nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx # Bắt buộc
