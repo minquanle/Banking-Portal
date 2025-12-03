@@ -3,12 +3,12 @@ kind: Ingress
 metadata:
   name: banking-ingress
   annotations:
-    # Dòng này cực quan trọng với Nginx Controller
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx # Bắt buộc
   rules:
-  - http:
+  - host: nonstopbank.duckdns.org
+    http:
       paths:
       # Đường dẫn cho Backend API
       - path: /api
