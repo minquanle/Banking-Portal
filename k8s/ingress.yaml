@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx # Bắt buộc
   rules:
-  - host: nonstopbank.duckdns.org
+  - host: qnt.click
     http:
       paths:
       # Đường dẫn cho Backend API
