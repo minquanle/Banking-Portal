@@ -17,6 +17,13 @@ spec:
       - name: frontend
         image: acesme/bank-frontend:latest
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
         ports:
         - containerPort: 80
 
@@ -28,11 +35,9 @@ kind: Service
 metadata:
   name: banking-frontend-svc
 spec:
-  # 1. Đổi type thành LoadBalancer
   type: ClusterIP 
   selector:
     app: banking-frontend
   ports:
     - port: 80         # Người dùng vào bằng cổng 80 (http://...)
       targetPort: 80   # Chuyển vào container cổng 80
-      # 2. XÓA dòng nodePort đi (K8s/Cloud sẽ tự lo việc này)

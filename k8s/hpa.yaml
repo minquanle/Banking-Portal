@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: banking-backend-hpa
+  namespace: deployment # Nhớ phải cùng namespace với Deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: banking-backend # Phải trùng tên với Deployment Backend
+  minReplicas: 1          # Lúc rảnh chạy 1 con
+  maxReplicas: 3          # Lúc căng tải chạy tối đa 3 con (để không sập Node)
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50 # CPU > 50% là tự động đẻ thêm Pod ngay

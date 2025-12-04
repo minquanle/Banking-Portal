@@ -16,6 +16,13 @@ spec:
       - name: backend
         image: acesme/bank-backend:latest # Thay bằng image của bạn
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "256Mi" # Cấp tối thiểu
+            cpu: "200m"     # Cấp tối thiểu 0.2 CPU
+          limits:
+            memory: "768Mi" # Không cho vượt quá (tránh OOM Node t3.small)
+            cpu: "500m"     # Không cho vượt quá 0.5 CPU
         ports:
         - containerPort: 8180 # Khớp với server.port
         env:
@@ -33,7 +40,7 @@ spec:
         - name: SPRING_DATASOURCE_USERNAME
           value: "admin"
         - name: SPRING_DATASOURCE_PASSWORD
-          value: "12345678" # (Nên dùng K8s Secret, nhưng để tạm đây cho dễ hiểu)
+          value: "12345678"
         
         # --- CẤU HÌNH JWT ---
         - name: JWT_SECRET
@@ -56,8 +63,6 @@ spec:
           value: "https://api.findip.net/"
         - name: GEO_API_KEY
           value: "b9b94488c35a4e5d8295ec5d6d86806f"
-        # Các config mặc định như ddl-auto, driver... thường để trong code build sẵn cũng được
-        # Nhưng nếu muốn override thì thêm vào đây.
 
 ---
 
