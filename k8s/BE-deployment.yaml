@@ -28,7 +28,6 @@ spec:
         - name: SPRING_JPA_DATABASE_PLATFORM
           value: "org.hibernate.dialect.MySQL8Dialect"
           
-        # Lưu ý: 'mysql-service' là tên Service DB mình sẽ tạo ở dưới
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://database-bank.cx0i6ek4snnj.ap-southeast-1.rds.amazonaws.com:3306/bankingapp?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
         - name: SPRING_DATASOURCE_USERNAME

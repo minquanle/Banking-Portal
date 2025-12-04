@@ -23,7 +23,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist/banking-portal /usr/share/nginx/html
 
 # Copy custom Nginx config if cần thiết
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port
 EXPOSE 80
