@@ -20,9 +20,9 @@ import com.webapp.bankingportal.util.LoggedinUser;
 import com.webapp.bankingportal.dto.SaveBeneficiaryRequest;
 import com.webapp.bankingportal.entity.RecentTransfer;
 import com.webapp.bankingportal.entity.SavedBeneficiary;
+import com.webapp.bankingportal.dto.TransactionDTO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 // abcdhdsfdsfhfhjdkf
 @RestController
 @RequestMapping("/api/account")
@@ -34,7 +34,7 @@ public class AccountController {
 
     @GetMapping("/pin/check")
     public ResponseEntity<Map<String, Boolean>> checkAccountPIN() {
-        val isPINValid = accountService.isPinCreated(LoggedinUser.getAccountNumber());
+        boolean isPINValid = accountService.isPinCreated(LoggedinUser.getAccountNumber());
         return ResponseEntity.ok(Map.of("hasPIN", isPINValid));
     }
 
@@ -91,7 +91,7 @@ public class AccountController {
 
     @GetMapping("/transactions")
     public ResponseEntity<String> getAllTransactionsByAccountNumber() {
-        val transactions = transactionService
+        List<TransactionDTO> transactions = transactionService
                 .getAllTransactionsByAccountNumber(LoggedinUser.getAccountNumber());
         return ResponseEntity.ok(JsonUtil.toJson(transactions));
     }

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '/api',
+  apiUrl: 'http://localhost:8080/api',
   tokenName :  "authToken",
-  origin: window.location.origin 
-  };
+  origin:'http://localhost:4200'
+};

@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * JWT Authentication Filter
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        val requestTokenHeader = request.getHeader("Authorization");
+        String requestTokenHeader = request.getHeader("Authorization");
 
         if (requestTokenHeader == null) {
             filterChain.doFilter(request, response);
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        val token = requestTokenHeader.substring(7);
+        String token = requestTokenHeader.substring(7);
         String username = null;
 
         try {
@@ -86,8 +86,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        val userDetails = userDetailsService.loadUserByUsername(username);
-        val authToken = new UsernamePasswordAuthenticationToken(
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
 
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

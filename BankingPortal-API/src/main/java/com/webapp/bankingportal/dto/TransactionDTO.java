@@ -8,7 +8,6 @@ import com.webapp.bankingportal.entity.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.val;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +28,7 @@ public class TransactionDTO {
         this.transactionDate = transaction.getTransactionDate();
         this.sourceAccountNumber = transaction.getSourceAccount().getAccountNumber();
 
-        val targetAccount = transaction.getTargetAccount();
+        var targetAccount = transaction.getTargetAccount();
         var targetAccountNumber = "N/A";
         if (targetAccount != null) {
             targetAccountNumber = targetAccount.getAccountNumber();

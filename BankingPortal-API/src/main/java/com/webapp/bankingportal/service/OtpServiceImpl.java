@@ -2,19 +2,22 @@ package com.webapp.bankingportal.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import com.webapp.bankingportal.entity.OtpInfo;
+import com.webapp.bankingportal.entity.User;
 import com.webapp.bankingportal.exception.AccountDoesNotExistException;
 import com.webapp.bankingportal.exception.InvalidOtpException;
 import com.webapp.bankingportal.exception.OtpRetryLimitExceededException;
 import com.webapp.bankingportal.repository.OtpInfoRepository;
-import com.webapp.bankingportal.util.ValidationUtil;
 import com.webapp.bankingportal.util.ApiMessages;
+import com.webapp.bankingportal.util.ValidationUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -34,6 +37,9 @@ public class OtpServiceImpl implements OtpService {
     private final ValidationUtil validationUtil;
 
     private LocalDateTime otpLimitReachedTime = null;
+
+    // Temporary storage for pending registration OTPs and user data
+    private final Map<String, RegistrationOtpData> registrationOtpCache = new ConcurrentHashMap<>();
 
     @Override
     public String generateOTP(String accountNumber) {
@@ -170,4 +176,73 @@ public class OtpServiceImpl implements OtpService {
         return expired;
     }
 
+    @Override
+    public String generateOtpForRegistration(String email, User pendingUser) {
+        val random = new Random();
+        val otpValue = 100_000 + random.nextInt(900_000);
+        val otp = String.valueOf(otpValue);
+
+        // Store OTP and user data temporarily
+        registrationOtpCache.put(email, new RegistrationOtpData(otp, LocalDateTime.now(), pendingUser));
+
+        return otp;
+    }
+
+    @Override
+    public boolean verifyRegistrationOtp(String email, String otp) {
+        val otpData = registrationOtpCache.get(email);
+
+        if (otpData == null) {
+            return false;
+        }
+
+        // Check if OTP is expired
+        val now = LocalDateTime.now();
+        if (otpData.getGeneratedAt().isBefore(now.minusMinutes(OTP_EXPIRY_MINUTES))) {
+            registrationOtpCache.remove(email);
+            return false;
+        }
+
+        // Check if OTP matches
+        if (!otpData.getOtp().equals(otp)) {
+            return false;
+        }
+
+        // OTP is valid - don't remove yet, UserController needs to get the user data
+        return true;
+    }
+
+    public User getPendingUserData(String email) {
+        val otpData = registrationOtpCache.get(email);
+        if (otpData != null) {
+            registrationOtpCache.remove(email); // Remove after getting the data
+            return otpData.getPendingUser();
+        }
+        return null;
+    }
+
+    // Inner class to store registration OTP data
+    private static class RegistrationOtpData {
+        private final String otp;
+        private final LocalDateTime generatedAt;
+        private final User pendingUser;
+
+        public RegistrationOtpData(String otp, LocalDateTime generatedAt, User pendingUser) {
+            this.otp = otp;
+            this.generatedAt = generatedAt;
+            this.pendingUser = pendingUser;
+        }
+
+        public String getOtp() {
+            return otp;
+        }
+
+        public LocalDateTime getGeneratedAt() {
+            return generatedAt;
+        }
+
+        public User getPendingUser() {
+            return pendingUser;
+        }
+    }
 }
