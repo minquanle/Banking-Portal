@@ -57,7 +57,10 @@ spec:
           value: "electronicncs@gmail.com"
         - name: SPRING_MAIL_PASSWORD
           value: "pzncxrpzllnowaih"
-        
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+          value: "true"
+        - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
+          value: "true"
         # --- CẤU HÌNH KHÁC ---
         - name: GEO_API_URL  # <--- BẠN ĐANG THIẾU DÒNG NÀY
           value: "https://api.findip.net/"
