@@ -32,6 +32,8 @@ public class WebSecurityConfig {
 
     private static final String[] PUBLIC_URLS = {
             "/api/users/register",
+            "/api/users/register/send-otp",
+            "/api/users/register/confirm-otp",
             "/api/users/login",
             "/api/auth/password-reset/verify-otp",
             "/api/auth/password-reset/send-otp",

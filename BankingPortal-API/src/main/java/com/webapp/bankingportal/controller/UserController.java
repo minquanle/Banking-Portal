@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 import com.webapp.bankingportal.dto.LoginRequest;
 import com.webapp.bankingportal.dto.OtpRequest;
 import com.webapp.bankingportal.dto.OtpVerificationRequest;
+import com.webapp.bankingportal.dto.RegisterOtpRequest;
 import com.webapp.bankingportal.entity.User;
 import com.webapp.bankingportal.exception.InvalidTokenException;
 import com.webapp.bankingportal.service.UserService;
+import com.webapp.bankingportal.service.OtpService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,6 +35,8 @@ public class UserController {
     private final UserService userService;
 @Autowired
     private EmailService emailService;
+@Autowired
+    private OtpService otpService;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
@@ -74,5 +80,58 @@ public class UserController {
 
         return userService.logout(token);
     }
+
+    @PostMapping("/register/send-otp")
+    public ResponseEntity<Map<String, String>> sendRegisterOtp(@Valid @RequestBody User user) {
+
+        // sinh OTP (có thể dùng OtpService hiện tại, lưu theo email)
+        String otp = otpService.generateOtpForRegistration(user.getEmail(), user);
+
+        // tạo template email OTP đăng ký (dùng getOtpLoginEmailTemplate hoặc viết hàm mới)
+        String emailBody = emailService.getOtpLoginEmailTemplate(
+                user.getName(),
+                user.getEmail(), // Use email instead of accountNumber since account is not created yet
+                otp
+        );
+
+        emailService.sendEmail(user.getEmail(), "OTP xác nhận đăng ký", emailBody);
+        return ResponseEntity.ok(Map.of("message", "OTP đã được gửi tới email của bạn"));
+    }
+
+    // java
+    @PostMapping("/register/confirm-otp")
+    public ResponseEntity<String> confirmRegisterOtp(@RequestBody RegisterOtpRequest request) {
+
+        String email = request.getUser().getEmail();
+        String otp = request.getOtp();
+
+        // Verify OTP first
+        boolean valid = otpService.verifyRegistrationOtp(email, otp);
+
+        if (!valid) {
+            return ResponseEntity.badRequest().body("OTP không đúng hoặc đã hết hạn");
+        }
+
+        // OTP is valid - Get the original user data from cache
+        User pendingUser = otpService.getPendingUserData(email);
+
+        if (pendingUser == null) {
+            return ResponseEntity.badRequest().body("Dữ liệu đăng ký không tồn tại hoặc đã hết hạn");
+        }
+
+        // Register the user with original data from cache
+        ResponseEntity<String> response = userService.registerUser(pendingUser);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String emailBody = emailService.getBankStatementEmailTemplate(
+                    pendingUser.getName(),
+                    "Welcome! Your account is created."
+            );
+            emailService.sendEmail(pendingUser.getEmail(), "Welcome to OneStopBank", emailBody);
+        }
+
+        return response;
+    }
+
 
 }

@@ -11,7 +11,6 @@ import com.webapp.bankingportal.util.JsonUtil;
 import com.webapp.bankingportal.util.LoggedinUser;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -22,15 +21,15 @@ public class DashboardController {
 
     @GetMapping("/user")
     public ResponseEntity<String> getUserDetails() {
-        val accountNumber = LoggedinUser.getAccountNumber();
-        val userResponse = dashboardService.getUserDetails(accountNumber);
+        String accountNumber = LoggedinUser.getAccountNumber();
+        var userResponse = dashboardService.getUserDetails(accountNumber);
         return ResponseEntity.ok(JsonUtil.toJson(userResponse));
     }
 
     @GetMapping("/account")
     public ResponseEntity<String> getAccountDetails() {
-        val accountNumber = LoggedinUser.getAccountNumber();
-        val accountResponse = dashboardService.getAccountDetails(accountNumber);
+        String accountNumber = LoggedinUser.getAccountNumber();
+        var accountResponse = dashboardService.getAccountDetails(accountNumber);
         return ResponseEntity.ok(JsonUtil.toJson(accountResponse));
     }
 

@@ -20,6 +20,19 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}/users/register`, data);
   }
 
+  // Send OTP for registration
+  sendRegistrationOtp(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/users/register/send-otp`, data);
+  }
+
+  // Confirm OTP and complete registration
+  confirmRegistrationOtp(data: any, otp: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/users/register/confirm-otp`, {
+      user: data,
+      otp: otp
+    });
+  }
+
   getUserDetails(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/dashboard/user`);
   }
